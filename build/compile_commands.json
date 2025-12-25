@@ -1,0 +1,50 @@
+[
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\main.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\main.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/main.cpp",
+  "output": "CMakeFiles/memsim.dir/src/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\allocator\\PhysicalMemory.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\allocator\\PhysicalMemory.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/allocator/PhysicalMemory.cpp",
+  "output": "CMakeFiles/memsim.dir/src/allocator/PhysicalMemory.cpp.obj"
+},
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\buddy\\BuddyAllocator.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\buddy\\BuddyAllocator.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/buddy/BuddyAllocator.cpp",
+  "output": "CMakeFiles/memsim.dir/src/buddy/BuddyAllocator.cpp.obj"
+},
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\cache\\DirectMappedCache.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\cache\\DirectMappedCache.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/cache/DirectMappedCache.cpp",
+  "output": "CMakeFiles/memsim.dir/src/cache/DirectMappedCache.cpp.obj"
+},
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\cache\\CacheHierarchy.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\cache\\CacheHierarchy.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/cache/CacheHierarchy.cpp",
+  "output": "CMakeFiles/memsim.dir/src/cache/CacheHierarchy.cpp.obj"
+},
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\virtual_memory\\PageTable.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\virtual_memory\\PageTable.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/virtual_memory/PageTable.cpp",
+  "output": "CMakeFiles/memsim.dir/src/virtual_memory/PageTable.cpp.obj"
+},
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\virtual_memory\\VirtualAddress.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\virtual_memory\\VirtualAddress.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/virtual_memory/VirtualAddress.cpp",
+  "output": "CMakeFiles/memsim.dir/src/virtual_memory/VirtualAddress.cpp.obj"
+},
+{
+  "directory": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build",
+  "command": "C:\\Users\\VAIDUR~1\\AppData\\Local\\MICROS~1\\WinGet\\Packages\\BRECHT~1.SOU\\mingw64\\bin\\G__~1.EXE  @CMakeFiles/memsim.dir/includes_CXX.rsp -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles\\memsim.dir\\src\\virtual_memory\\VirtualMemoryManager.cpp.obj -c \"C:\\Users\\Vaidurya Shah\\Desktop\\projects\\memory-simulator\\src\\virtual_memory\\VirtualMemoryManager.cpp\"",
+  "file": "C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/src/virtual_memory/VirtualMemoryManager.cpp",
+  "output": "CMakeFiles/memsim.dir/src/virtual_memory/VirtualMemoryManager.cpp.obj"
+}
+]

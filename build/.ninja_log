@@ -1,0 +1,5 @@
+# ninja log v5
+44	1278	7882034929338958	CMakeFiles/memsim.dir/src/main.cpp.obj	f2a89a2e9b0b8f4f
+89	1361	7882034930202219	CMakeFiles/memsim.dir/src/allocator/PhysicalMemory.cpp.obj	4e9f97102b3bd630
+121	2393	7882034940295606	CMakeFiles/memsim.dir/src/buddy/BuddyAllocator.cpp.obj	5cdbdb6b40595d24
+2394	2945	7882034945812206	memsim.exe	f74b1a888855d0eb

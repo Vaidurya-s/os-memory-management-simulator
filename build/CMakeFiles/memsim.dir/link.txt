@@ -1,0 +1,3 @@
+"C:\Users\Vaidurya Shah\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin\cmake.exe" -E rm -f CMakeFiles\memsim.dir/objects.a
+C:\Users\VAIDUR~1\AppData\Local\MICROS~1\WinGet\Packages\BRECHT~1.SOU\mingw64\bin\ar.exe qc CMakeFiles\memsim.dir/objects.a @CMakeFiles\memsim.dir\objects1.rsp
+C:\Users\VAIDUR~1\AppData\Local\MICROS~1\WinGet\Packages\BRECHT~1.SOU\mingw64\bin\G__~1.EXE -g -Wl,--whole-archive CMakeFiles\memsim.dir/objects.a -Wl,--no-whole-archive -o memsim.exe -Wl,--out-implib,libmemsim.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\memsim.dir\linkLibs.rsp

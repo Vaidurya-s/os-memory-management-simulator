@@ -1,0 +1,160 @@
+What has been achieved so far (concise but complete)
+
+You have built a systems-correct memory management simulator in C++, implementing every major subsystem described in the design document, step by step, with correctness validated at each stage.
+
+Physical Memory and Allocation
+
+Simulated physical memory as a contiguous address space starting at address 0.
+
+Implemented a variable-size physical memory allocator with:
+
+Explicit block metadata (start, size, free or used, block ID).
+
+Correct block splitting on allocation.
+
+Correct two-sided coalescing on deallocation.
+
+No overlaps, no gaps, total memory conserved.
+
+Implemented three allocation strategies:
+
+First Fit
+
+Best Fit
+
+Worst Fit
+
+Clean separation between allocation policy and allocation mechanism.
+
+Implemented and validated metrics:
+
+Total memory
+
+Used memory
+
+Free memory
+
+Largest free block
+
+External fragmentation
+(1 − largest free block ÷ total free memory)
+
+Buddy Allocation System (Optional, Fully Implemented)
+
+Implemented a standalone buddy allocator from first principles:
+
+Power-of-two total memory constraint.
+
+Free lists indexed by order.
+
+Recursive splitting on allocation.
+
+XOR-based buddy computation.
+
+Recursive coalescing on free.
+
+Correctly tracked internal fragmentation.
+
+Added invariant checks:
+
+No overlapping blocks.
+
+No unmerged free buddy pairs.
+
+Verified allocator returns to a single free block after all frees.
+
+Cache Simulation
+
+Built a cache simulator operating on physical addresses only.
+
+Implemented:
+
+Configurable cache size, line size, associativity.
+
+Direct-mapped cache (associativity = 1).
+
+Set-associative cache (associativity ≥ 2).
+
+Explicit FIFO replacement policy with timestamps.
+
+Correct address decomposition into tag, index, and offset.
+
+Correct hit and miss detection.
+
+Validated conflict misses and FIFO eviction order.
+
+Tracked:
+
+Hits
+
+Misses
+
+Hit ratio
+
+Multilevel Cache (L1–L2)
+
+Implemented an explicit CacheHierarchy:
+
+L1 accessed first.
+
+L2 accessed only on L1 miss.
+
+Correct fill behavior on L2 hit or memory fetch.
+
+Introduced silent fills to avoid double-counting statistics.
+
+Correctly tracked:
+
+L1 hits and misses
+
+L2 hits and misses
+
+Proper miss propagation semantics
+
+Virtual Memory (Single-File Implementation)
+
+Implemented a single-file VirtualMemoryManager with:
+
+Virtual address decomposition (VPN + offset).
+
+Page table with valid bits.
+
+Frame table tracking free frames.
+
+Page fault detection and counting.
+
+Implemented FIFO page replacement:
+
+Load-time timestamps per page.
+
+Deterministic victim selection.
+
+Frame reuse and page invalidation.
+
+Validated correct eviction behavior and page fault counts.
+
+Full End-to-End Integration
+
+Integrated the complete pipeline:
+
+Virtual address
+
+Virtual memory translation (with FIFO replacement)
+
+Physical address
+
+L1–L2 cache hierarchy
+
+Verified:
+
+Page faults are independent of cache behavior.
+
+Cache operates strictly on physical addresses.
+
+No virtual aliasing bugs.
+
+Correct per-level cache statistics under frame reuse.
+
+Final output matched expected hardware-like behavior.
+
+At this point, Sections 1 through 8 of the design document are fully implemented and validated. No core functionality is missing.

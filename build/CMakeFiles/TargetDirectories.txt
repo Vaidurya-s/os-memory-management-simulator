@@ -1,0 +1,3 @@
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/memsim.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/edit_cache.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/rebuild_cache.dir
