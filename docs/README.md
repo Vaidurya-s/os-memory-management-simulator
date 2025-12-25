@@ -461,6 +461,142 @@ Allocate its frame to new page
 
 ## 🧪 Testing and Validation
 
+### Comprehensive Test Suite
+
+The project includes a complete test suite with **6 independent test executables** covering all components:
+
+#### Test Files
+
+1. **test_physical_memory** - Physical Memory Allocator Tests
+   - First-fit, best-fit, worst-fit allocation strategies
+   - Memory fragmentation tracking and calculation
+   - Block coalescing and merging
+   - Memory metrics (total, used, free, largest block)
+   - Allocation failure scenarios
+   - Multiple allocation patterns
+   - Invalid free operations
+
+2. **test_buddy_allocator** - Buddy Allocation System Tests
+   - Power-of-two rounding and allocation
+   - Buddy splitting and coalescing mechanisms
+   - Free list management across all orders
+   - Internal fragmentation metrics
+   - Invariant checking (no overlaps, no free buddy pairs)
+   - Stress testing with varied allocation sizes
+   - Largest free block tracking
+
+3. **test_cache** - Cache Simulator Tests
+   - Cache hits and misses
+   - Address decoding (tag, index, offset extraction)
+   - Cache replacement (FIFO) behavior
+   - Sequential and strided access patterns
+   - Various associativity levels (1-way, 2-way, 4-way)
+   - Conflict miss detection
+   - Different cache sizes and line sizes
+   - Hit ratio calculations
+
+4. **test_virtual_memory** - Virtual Memory Manager Tests
+   - Virtual to physical address translation
+   - Page fault detection and handling
+   - FIFO page replacement policy
+   - LRU page replacement policy
+   - Working set behavior
+   - Thrashing scenarios
+   - Page fault counting
+   - Address translation correctness
+
+5. **test_page_table** - Page Table Tests
+   - Page table entry management
+   - Valid, dirty, and referenced bits
+   - Frame number assignment and tracking
+   - Timestamp management
+   - Boundary condition testing
+   - Multiple entry manipulation
+
+6. **test_virtual_address** - Virtual Address Decoder Tests
+   - VPN (Virtual Page Number) extraction
+   - Offset extraction
+   - Various page sizes (512B - 16KB)
+   - Boundary address testing
+   - Address reconstruction verification
+   - Sequential address patterns
+
+### Building and Running Tests
+
+#### Quick Start - Automated Testing
+
+**Windows (Batch Script)**:
+```bash
+# Run the automated build and test script
+build_and_test.bat
+```
+
+**Windows/Linux/macOS (PowerShell)**:
+```bash
+# Run the cross-platform PowerShell script
+pwsh build_and_test.ps1
+```
+
+#### Manual Build and Test
+
+```bash
+# Create and enter build directory
+mkdir -p build && cd build
+
+# Configure and build
+cmake ..
+cmake --build .
+
+# Run all tests using custom target
+cmake --build . --target run_tests
+
+# Or run individual tests
+./test_physical_memory
+./test_buddy_allocator
+./test_cache
+./test_virtual_memory
+./test_page_table
+./test_virtual_address
+```
+
+#### Building Without Tests
+
+```bash
+cmake .. -DBUILD_TESTS=OFF
+cmake --build .
+```
+
+### Test Coverage
+
+Each test suite provides comprehensive coverage:
+
+- ✅ **Basic Functionality** - Core features work as expected
+- ✅ **Edge Cases** - Boundary conditions and special scenarios
+- ✅ **Error Handling** - Invalid inputs and failure modes
+- ✅ **Performance Metrics** - Statistics and measurements
+- ✅ **Stress Testing** - Heavy loads and complex patterns
+- ✅ **Invariant Validation** - Data structure consistency
+
+### Expected Test Output
+
+All tests output clear pass/fail status:
+
+```
+=== Running PhysicalMemory Tests ===
+Testing initialization... PASSED
+Testing first-fit allocation... PASSED
+Testing best-fit allocation... PASSED
+Testing worst-fit allocation... PASSED
+Testing free and reallocation... PASSED
+Testing fragmentation calculation... PASSED
+Testing memory metrics... PASSED
+Testing allocation failure... PASSED
+Testing multiple allocations... PASSED
+Testing free with invalid ID... PASSED
+Testing block coalescing... PASSED
+=== All PhysicalMemory Tests Passed! ===
+```
+
 ### Built-in Invariant Checks
 
 **Buddy Allocator**:
@@ -479,6 +615,10 @@ All subsystems provide detailed metrics for analysis:
 - Fragmentation (internal/external)
 - Cache performance (hits/misses/ratio)
 - Page fault rates
+
+### Test Documentation
+
+For detailed testing information, see [tests/README.md](../tests/README.md)
 
 ## 🤝 Contributing
 
