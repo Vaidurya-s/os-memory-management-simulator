@@ -24,14 +24,23 @@ public:
 private:
     static void test_initialization() {
         std::cout << "Testing initialization... ";
+        std::cout << "\n  [DEBUG] Creating PageTable with 64 entries\n";
         PageTable pt(64);
         
+        std::cout << "  [EXPECTED] Page table size = 64\n";
+        std::cout << "  [ACTUAL]   Page table size = " << pt.size() << "\n";
         assert(pt.size() == 64);
         
-        // All entries should be invalid initially
+        std::cout << "  [EXPECTED] All 64 entries should be invalid initially\n";
+        bool all_invalid = true;
         for (size_t i = 0; i < 64; ++i) {
+            if (pt.entry(i).valid) {
+                all_invalid = false;
+                std::cout << "  [ERROR]    Entry " << i << " is valid!\n";
+            }
             assert(!pt.entry(i).valid);
         }
+        std::cout << "  [ACTUAL]   All entries are invalid: " << (all_invalid ? "YES" : "NO") << "\n";
         
         std::cout << "PASSED\n";
     }

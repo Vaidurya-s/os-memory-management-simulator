@@ -1,0 +1,85 @@
+# Virtual Memory Access Workload - FIFO Replacement
+# Tests page fault behavior and FIFO replacement policy
+# Format: ACCESS VIRTUAL_ADDRESS
+
+# Virtual Memory Configuration:
+# Virtual pages: 32
+# Physical frames: 8  
+# Page size: 4096 bytes (0x1000)
+
+# Page number = address / 4096
+# Offset = address % 4096
+
+# Phase 1: Initial page faults (cold start)
+# Fill all 8 physical frames
+ACCESS 0x0000     # Page 0, Fault #1, Frame 0
+ACCESS 0x1000     # Page 1, Fault #2, Frame 1
+ACCESS 0x2000     # Page 2, Fault #3, Frame 2
+ACCESS 0x3000     # Page 3, Fault #4, Frame 3
+ACCESS 0x4000     # Page 4, Fault #5, Frame 4
+ACCESS 0x5000     # Page 5, Fault #6, Frame 5
+ACCESS 0x6000     # Page 6, Fault #7, Frame 6
+ACCESS 0x7000     # Page 7, Fault #8, Frame 7
+
+# Expected: 8 page faults
+# Frame allocation: [0,1,2,3,4,5,6,7]
+# FIFO queue: [0,1,2,3,4,5,6,7]
+
+# Phase 2: Temporal locality (no new faults)
+ACCESS 0x0100     # Page 0, offset 0x100, HIT (no fault)
+ACCESS 0x1200     # Page 1, offset 0x200, HIT
+ACCESS 0x2500     # Page 2, offset 0x500, HIT
+
+# Expected: Still 8 page faults total
+
+# Phase 3: Trigger replacements (FIFO)
+ACCESS 0x8000     # Page 8, Fault #9, evicts Page 0 (oldest)
+ACCESS 0x9000     # Page 9, Fault #10, evicts Page 1
+ACCESS 0xA000     # Page 10, Fault #11, evicts Page 2
+
+# Expected: 11 page faults
+# Frame allocation: [8,9,10,3,4,5,6,7]
+# FIFO queue: [3,4,5,6,7,8,9,10]
+
+# Phase 4: Access evicted pages (causes more faults)
+ACCESS 0x0000     # Page 0, Fault #12, evicts Page 3
+ACCESS 0x1000     # Page 1, Fault #13, evicts Page 4
+
+# Expected: 13 page faults
+# Frame allocation: [0,1,10,8,9,5,6,7]
+
+# Phase 5: Verify offset preservation
+ACCESS 0x1234     # Page 1, offset 0x234
+# Physical address should have same offset 0x234
+# If Page 1 is in Frame 5:
+# Physical address = 5 * 4096 + 0x234 = 0x5234
+
+ACCESS 0x2ABC     # Page 2 (not in memory), Fault #14
+# Offset 0xABC should be preserved in physical address
+
+# Expected: 14 page faults total
+
+# Phase 6: Working set (fits in memory)
+# Repeatedly access 6 pages (less than 8 frames)
+ACCESS 0xB000     # Page 11, Fault #15
+ACCESS 0xC000     # Page 12, Fault #16  
+ACCESS 0xD000     # Page 13, Fault #17
+ACCESS 0xE000     # Page 14, Fault #18
+ACCESS 0xF000     # Page 15, Fault #19
+ACCESS 0x10000    # Page 16, Fault #20
+
+# Second pass - all should be hits
+ACCESS 0xB000     # HIT
+ACCESS 0xC000     # HIT
+ACCESS 0xD000     # HIT
+ACCESS 0xE000     # HIT
+ACCESS 0xF000     # HIT
+ACCESS 0x10000    # HIT
+
+# Expected: Still 20 page faults (no new faults in second pass)
+
+# Final Statistics:
+# Total accesses: 30
+# Page faults: 20
+# Hit rate: 33.3% (10 hits / 30 accesses)
+# FIFO replacements: 12 (20 faults - 8 cold start)

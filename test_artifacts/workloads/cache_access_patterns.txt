@@ -1,0 +1,73 @@
+# Cache Access Workload - Sequential and Strided Patterns
+# Tests cache hit/miss patterns with different access patterns
+# Format: ACCESS ADDRESS
+
+# Cache Configuration:
+# Size: 8192 bytes (8 KB)
+# Line size: 64 bytes
+# Ways: 1 (direct-mapped)
+# Number of sets: 128
+
+# Set index = (address / 64) % 128
+# Tag = address / (64 * 128)
+# Offset = address % 64
+
+# Pattern 1: Sequential access (spatial locality)
+# Accesses within same cache line should hit after first miss
+ACCESS 0x1000    # MISS - set 0, fill line
+ACCESS 0x1004    # HIT - same line (offset 4)
+ACCESS 0x1010    # HIT - same line (offset 16)
+ACCESS 0x1020    # HIT - same line (offset 32)
+ACCESS 0x1030    # HIT - same line (offset 48)
+
+# Expected: 1 miss, 4 hits
+
+# Pattern 2: Temporal locality
+# Repeated accesses to same address
+ACCESS 0x2000    # MISS - set 32
+ACCESS 0x2000    # HIT - same address
+ACCESS 0x2000    # HIT - same address
+ACCESS 0x2000    # HIT - same address
+
+# Expected: 1 miss, 3 hits
+
+# Pattern 3: Conflict misses (addresses map to same set)
+# Set calculation: (addr / 64) % 128
+ACCESS 0x0000    # MISS - set 0
+ACCESS 0x2000    # MISS - set 32
+ACCESS 0x4000    # MISS - set 64 (conflicts with 0x0000)
+ACCESS 0x0000    # MISS - evicted by 0x4000
+
+# Expected: 4 misses, 0 hits
+
+# Pattern 4: Strided access (power-of-2 stride)
+# Stride = 256 bytes (4 cache lines)
+ACCESS 0x8000    # MISS - set 0
+ACCESS 0x8100    # MISS - set 4 (256/64=4 sets apart)
+ACCESS 0x8200    # MISS - set 8
+ACCESS 0x8300    # MISS - set 12
+ACCESS 0x8000    # HIT - revisit first address
+
+# Expected: 4 misses, 1 hit
+
+# Pattern 5: Working set (fits in cache)
+# Access 64 different cache lines (4096 bytes total)
+# Cache can hold 128 lines, so working set fits
+ACCESS 0xA000    # Line 0
+ACCESS 0xA040    # Line 1  
+ACCESS 0xA080    # Line 2
+ACCESS 0xA0C0    # Line 3
+# ... continue for 64 lines
+# Second pass through same addresses
+ACCESS 0xA000    # HIT - still in cache
+ACCESS 0xA040    # HIT
+ACCESS 0xA080    # HIT
+
+# Expected second pass: All hits
+
+# Summary of expected metrics:
+# Total accesses: ~100
+# Expected hit ratio: ~60-70%
+# Conflict misses: ~10-15%
+# Capacity misses: 0 (working set fits)
+# Compulsory misses: ~30-40%

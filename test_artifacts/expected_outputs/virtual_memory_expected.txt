@@ -1,0 +1,165 @@
+# Expected Output: Virtual Memory FIFO Replacement
+# Workload: virtual_memory_fifo.txt
+# Config: 32 virtual pages, 8 physical frames, 4096-byte pages
+
+## Address Translation Formula
+```
+page_number = virtual_address / 4096
+offset = virtual_address % 4096
+physical_address = frame_number * 4096 + offset
+```
+
+## Phase 1: Initial Page Faults (Cold Start)
+
+| Access | Virt Addr | Page | Offset | Fault# | Frame | Physical Addr |
+|--------|-----------|------|--------|--------|-------|---------------|
+| 1      | 0x0000    | 0    | 0x000  | 1      | 0     | 0x0000        |
+| 2      | 0x1000    | 1    | 0x000  | 2      | 1     | 0x1000        |
+| 3      | 0x2000    | 2    | 0x000  | 3      | 2     | 0x2000        |
+| 4      | 0x3000    | 3    | 0x000  | 4      | 3     | 0x3000        |
+| 5      | 0x4000    | 4    | 0x000  | 5      | 4     | 0x4000        |
+| 6      | 0x5000    | 5    | 0x000  | 6      | 5     | 0x5000        |
+| 7      | 0x6000    | 6    | 0x000  | 7      | 6     | 0x6000        |
+| 8      | 0x7000    | 7    | 0x000  | 8      | 7     | 0x7000        |
+
+Frame State: [P0, P1, P2, P3, P4, P5, P6, P7]
+FIFO Queue: [0, 1, 2, 3, 4, 5, 6, 7] (oldest → newest)
+Page Faults: 8
+Hit Rate: 0% (all compulsory misses)
+
+## Phase 2: Temporal Locality (No New Faults)
+
+| Access | Virt Addr | Page | Offset | Frame | Result | Physical Addr |
+|--------|-----------|------|--------|-------|--------|---------------|
+| 9      | 0x0100    | 0    | 0x100  | 0     | HIT    | 0x0100        |
+| 10     | 0x1200    | 1    | 0x200  | 1     | HIT    | 0x1200        |
+| 11     | 0x2500    | 2    | 0x500  | 2     | HIT    | 0x2500        |
+
+Frame State: [P0, P1, P2, P3, P4, P5, P6, P7] (unchanged)
+FIFO Queue: [0, 1, 2, 3, 4, 5, 6, 7] (unchanged)
+Page Faults: 8 (no new faults)
+Hit Rate: 27.3% (3/11)
+
+## Phase 3: FIFO Replacements
+
+| Access | Virt Addr | Page | Fault# | Evicted | New Frame | Physical Addr |
+|--------|-----------|------|--------|---------|-----------|---------------|
+| 12     | 0x8000    | 8    | 9      | Page 0  | 0         | 0x0000        |
+| 13     | 0x9000    | 9    | 10     | Page 1  | 1         | 0x1000        |
+| 14     | 0xA000    | 10   | 11     | Page 2  | 2         | 0x2000        |
+
+Frame State: [P8, P9, P10, P3, P4, P5, P6, P7]
+FIFO Queue: [3, 4, 5, 6, 7, 8, 9, 10]
+Page Faults: 11
+Hit Rate: 21.4% (3/14)
+
+Eviction Order (FIFO):
+  1st eviction: Page 0 (oldest)
+  2nd eviction: Page 1 (second oldest)
+  3rd eviction: Page 2 (third oldest)
+
+## Phase 4: Access Evicted Pages
+
+| Access | Virt Addr | Page | Fault# | Evicted | New Frame |
+|--------|-----------|------|--------|---------|-----------|
+| 15     | 0x0000    | 0    | 12     | Page 3  | 3         |
+| 16     | 0x1000    | 1    | 13     | Page 4  | 4         |
+
+Frame State: [P8, P9, P10, P0, P1, P5, P6, P7]
+FIFO Queue: [5, 6, 7, 8, 9, 10, 0, 1]
+Page Faults: 13
+
+## Phase 5: Offset Preservation
+
+| Access | Virt Addr | Page | Offset | Frame | Physical Addr | Offset Preserved? |
+|--------|-----------|------|--------|-------|---------------|-------------------|
+| 17     | 0x1234    | 1    | 0x234  | 4     | 0x4234        | ✓ (0x234 = 0x234) |
+| 18     | 0x2ABC    | 2    | 0xABC  | ?     | 0x?ABC        | ✓ (0xABC = 0xABC) |
+
+Access 18 causes Fault #14 (Page 2 not in memory)
+
+Offset Validation:
+  Virtual offset = Virt Addr & 0xFFF
+  Physical offset = Phys Addr & 0xFFF
+  MUST BE EQUAL for correct translation
+
+## Phase 6: Working Set (6 pages)
+
+First Pass:
+| Access | Virt Addr | Page | Fault# | Result |
+|--------|-----------|------|--------|--------|
+| 19     | 0xB000    | 11   | 15     | MISS   |
+| 20     | 0xC000    | 12   | 16     | MISS   |
+| 21     | 0xD000    | 13   | 17     | MISS   |
+| 22     | 0xE000    | 14   | 18     | MISS   |
+| 23     | 0xF000    | 15   | 19     | MISS   |
+| 24     | 0x10000   | 16   | 20     | MISS   |
+
+Page Faults after first pass: 20
+
+Second Pass (Same 6 pages):
+| Access | Virt Addr | Page | Result | Frame |
+|--------|-----------|------|--------|-------|
+| 25     | 0xB000    | 11   | HIT    | ?     |
+| 26     | 0xC000    | 12   | HIT    | ?     |
+| 27     | 0xD000    | 13   | HIT    | ?     |
+| 28     | 0xE000    | 14   | HIT    | ?     |
+| 29     | 0xF000    | 15   | HIT    | ?     |
+| 30     | 0x10000   | 16   | HIT    | ?     |
+
+Page Faults after second pass: 20 (no new faults)
+Hits in second pass: 6 (working set fits in 8 frames)
+
+## Final Statistics
+
+Total Accesses: 30
+Page Faults: 20
+Hits: 10
+Hit Rate: 33.3% (10/30)
+FIFO Replacements: 12 (faults - initial 8 cold misses)
+
+Fault Breakdown:
+  Compulsory (cold start): 8 faults (26.7%)
+  FIFO replacements: 12 faults (40.0%)
+  Working set hits: 10 accesses (33.3%)
+
+## FIFO Queue Evolution
+
+```
+Initial:     []
+After 8:     [0,1,2,3,4,5,6,7]
+After 11:    [3,4,5,6,7,8,9,10]
+After 13:    [5,6,7,8,9,10,0,1]
+After 20:    [varies - depends on evictions]
+```
+
+## Correctness Criteria
+
+✓ Page faults count never decreases
+✓ Offset always preserved: (vaddr & 0xFFF) == (paddr & 0xFFF)
+✓ Frame number < 8 (total physical frames)
+✓ Page number < 32 (total virtual pages)
+✓ FIFO eviction: oldest page evicted first
+✓ Working set < frames → 100% hit rate after warm-up
+✓ hit_rate = hits / total_accesses
+✓ Valid physical addresses: 0 ≤ paddr < (8 * 4096)
+
+## Page Table State Example
+
+After Phase 1:
+```
+Page 0: Valid=1, Frame=0, Timestamp=1
+Page 1: Valid=1, Frame=1, Timestamp=2
+Page 2: Valid=1, Frame=2, Timestamp=3
+Page 3: Valid=1, Frame=3, Timestamp=4
+Page 4: Valid=1, Frame=4, Timestamp=5
+Page 5: Valid=1, Frame=5, Timestamp=6
+Page 6: Valid=1, Frame=6, Timestamp=7
+Page 7: Valid=1, Frame=7, Timestamp=8
+```
+
+After First Eviction (Page 8 loaded, Page 0 evicted):
+```
+Page 0: Valid=0, Frame=-, Timestamp=-
+Page 8: Valid=1, Frame=0, Timestamp=9
+```

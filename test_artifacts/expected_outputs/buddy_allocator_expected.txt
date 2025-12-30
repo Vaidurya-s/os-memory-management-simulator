@@ -1,0 +1,97 @@
+# Expected Output: Buddy Allocator Stress Test
+# Workload: buddy_allocator_stress.txt
+
+## Power-of-2 Rounding Table
+| Requested | Rounded | Block Size |
+|-----------|---------|------------|
+| 1         | 64      | Minimum    |
+| 64        | 64      | Exact      |
+| 65        | 128     | Next power |
+| 100       | 128     | Next power |
+| 200       | 256     | Next power |
+| 513       | 1024    | Next power |
+| 1024      | 1024    | Exact      |
+
+## Phase 1: Small Allocations
+
+### ALLOCATE 64
+Expected:
+  allocated_size: 64
+  block_address: 0 (aligned to 64)
+  splits_performed: 6  # 4096→2048→1024→512→256→128→64
+  allocated_memory: 64
+
+### ALLOCATE 100 (rounds to 128)
+Expected:
+  allocated_size: 128
+  block_address: 64 (buddy of first block)
+  allocated_memory: 192
+
+### ALLOCATE 200 (rounds to 256)
+Expected:
+  allocated_size: 256
+  block_address: aligned to 256
+  allocated_memory: 448
+
+### ALLOCATE 50 (rounds to 64)
+Expected:
+  allocated_size: 64
+  allocated_memory: 512
+
+## Phase 2: Coalescing
+
+### FREE_ADDR 0
+Expected:
+  freed_size: 64
+  allocated_memory: 448
+
+### FREE_ADDR 64
+Expected:
+  freed_size: 128
+  coalescing: YES (64 + 64 → 128)
+  allocated_memory: 320
+  
+Buddy pair verification:
+  addr1 XOR addr2 = block_size
+  0 XOR 64 = 64 ✓
+
+## Phase 3: Large Allocations
+
+### ALLOCATE 1024
+Expected:
+  allocated_size: 1024
+  splits_performed: varies (depends on free list state)
+  block_address: aligned to 1024
+
+### ALLOCATE 512
+Expected:
+  allocated_size: 512
+  block_address: aligned to 512
+
+## Phase 5: FREE_ALL
+
+### After freeing all blocks
+Expected:
+  allocated_memory: 0
+  free_memory: 4096
+  largest_free_block: 4096
+  num_free_lists: Single 4096-byte block in free list
+
+Complete coalescing verification:
+  All buddy pairs coalesced back to root
+  Binary tree restored to single root node
+  
+## Correctness Criteria
+✓ All allocated addresses aligned to block size
+✓ Buddy addresses differ by exactly block size
+✓ allocated_size is always power of 2
+✓ allocated_size ≥ requested_size
+✓ No overlapping allocations
+✓ After FREE_ALL: largest_free_block = total_memory
+✓ Coalescing occurs when both buddies free
+
+## Buddy Pair Validation Formula
+For buddies at level k with size 2^k:
+  addr1 = base + i × 2^k
+  addr2 = base + (i ⊕ 1) × 2^k
+  where i ⊕ 1 toggles the k-th bit

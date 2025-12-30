@@ -28,8 +28,14 @@ public:
 private:
     static void test_initialization() {
         std::cout << "Testing initialization... ";
+        std::cout << "\n  [DEBUG] Creating VirtualMemoryManager:\n";
+        std::cout << "    - Virtual pages: 64\n";
+        std::cout << "    - Physical frames: 16\n";
+        std::cout << "    - Page size: 4096 bytes\n";
         VirtualMemoryManager vmm(64, 16, 4096);
         
+        std::cout << "  [EXPECTED] Initial page_faults = 0\n";
+        std::cout << "  [ACTUAL]   page_faults = " << vmm.page_faults() << "\n";
         assert(vmm.page_faults() == 0);
         
         std::cout << "PASSED\n";
@@ -51,19 +57,29 @@ private:
 
     static void test_page_fault() {
         std::cout << "Testing page fault behavior... ";
+        std::cout << "\n  [DEBUG] VMM config: 64 pages, 16 frames, 4096-byte pages\n";
         VirtualMemoryManager vmm(64, 16, 4096);
         
-        // First access causes page fault
+        std::cout << "  [STEP 1] First access to 0x2000\n";
+        std::cout << "  [CALC]    Page number = 0x2000 / 4096 = " << (0x2000 / 4096) << "\n";
+        std::cout << "  [EXPECTED] Page not in memory -> page fault (count=1)\n";
         uint64_t vaddr = 0x2000;
         vmm.translate(vaddr);
+        std::cout << "  [ACTUAL]   page_faults = " << vmm.page_faults() << "\n";
         assert(vmm.page_faults() == 1);
         
-        // Second access to same page - no fault
+        std::cout << "  [STEP 2] Access to 0x" << std::hex << (vaddr + 100) << std::dec << " (same page)\n";
+        std::cout << "  [CALC]    Page number = " << ((vaddr + 100) / 4096) << " (still page 2)\n";
+        std::cout << "  [EXPECTED] Page already in memory -> no new fault (count=1)\n";
         vmm.translate(vaddr + 100);
+        std::cout << "  [ACTUAL]   page_faults = " << vmm.page_faults() << "\n";
         assert(vmm.page_faults() == 1);
         
-        // Access to different page - another fault
+        std::cout << "  [STEP 3] Access to 0x3000 (different page)\n";
+        std::cout << "  [CALC]    Page number = 0x3000 / 4096 = " << (0x3000 / 4096) << "\n";
+        std::cout << "  [EXPECTED] New page -> page fault (count=2)\n";
         vmm.translate(0x3000);
+        std::cout << "  [ACTUAL]   page_faults = " << vmm.page_faults() << "\n";
         assert(vmm.page_faults() == 2);
         
         std::cout << "PASSED\n";
@@ -90,21 +106,34 @@ private:
 
     static void test_fifo_replacement() {
         std::cout << "Testing FIFO replacement... ";
+        std::cout << "\n  [DEBUG] VMM config: 8 virtual pages, 4 physical frames, 4096-byte pages\n";
+        std::cout << "  [DEBUG] Replacement policy: FIFO\n";
         VirtualMemoryManager vmm(8, 4, 4096, 
                                  VirtualMemoryManager::PageReplacementPolicy::FIFO);
         
-        // Fill all frames
+        std::cout << "  [STEP 1] Fill all 4 frames with pages 0-3\n";
         for (int i = 0; i < 4; ++i) {
-            vmm.translate(i * 4096);
+            uint64_t vaddr = i * 4096;
+            std::cout << "    Accessing page " << i << " (vaddr=0x" << std::hex << vaddr << std::dec << ")\n";
+            vmm.translate(vaddr);
         }
+        std::cout << "  [EXPECTED] page_faults = 4\n";
+        std::cout << "  [ACTUAL]   page_faults = " << vmm.page_faults() << "\n";
         assert(vmm.page_faults() == 4);
+        std::cout << "  [STATE]   Frame queue (FIFO): [0, 1, 2, 3]\n";
         
-        // Access 5th page - should trigger replacement
+        std::cout << "  [STEP 2] Access page 4 (triggers replacement)\n";
+        std::cout << "  [EXPECTED] Page 0 evicted (oldest in FIFO)\n";
         vmm.translate(4 * 4096);
+        std::cout << "  [EXPECTED] page_faults = 5\n";
+        std::cout << "  [ACTUAL]   page_faults = " << vmm.page_faults() << "\n";
         assert(vmm.page_faults() == 5);
+        std::cout << "  [STATE]   Frame queue (FIFO): [1, 2, 3, 4]\n";
         
-        // First page should have been evicted (FIFO)
+        std::cout << "  [STEP 3] Re-access page 0 (should fault - was evicted)\n";
         vmm.translate(0);  // Page 0
+        std::cout << "  [EXPECTED] page_faults = 6\n";
+        std::cout << "  [ACTUAL]   page_faults = " << vmm.page_faults() << "\n";
         assert(vmm.page_faults() == 6);
         
         std::cout << "PASSED\n";
@@ -210,18 +239,32 @@ private:
 
     static void test_address_translation() {
         std::cout << "Testing address translation correctness... ";
+        std::cout << "\n  [DEBUG] VMM config: 64 pages, 16 frames, 4096-byte pages\n";
         VirtualMemoryManager vmm(64, 16, 4096);
         
-        // Virtual address with offset
+        std::cout << "  [TEST 1] Translate 0x1234\n";
         uint64_t vaddr = 0x1234;  // Page 1, offset 0x234
-        uint64_t paddr = vmm.translate(vaddr);
+        std::cout << "  [CALC]    Page number = 0x1234 / 4096 = " << (vaddr / 4096) << "\n";
+        std::cout << "  [CALC]    Offset = 0x1234 & 0xFFF = 0x" << std::hex << (vaddr & 0xFFF) << std::dec << "\n";
         
-        // Physical address should preserve offset
+        uint64_t paddr = vmm.translate(vaddr);
+        std::cout << "  [RESULT]  Physical addr = 0x" << std::hex << paddr << std::dec << "\n";
+        std::cout << "  [CALC]    Physical offset = 0x" << std::hex << (paddr & 0xFFF) << std::dec << "\n";
+        
+        std::cout << "  [EXPECTED] Offset preserved: 0x" << std::hex << (vaddr & 0xFFF) << std::dec << "\n";
+        std::cout << "  [ACTUAL]   Physical offset: 0x" << std::hex << (paddr & 0xFFF) << std::dec << "\n";
         assert((paddr & 0xFFF) == (vaddr & 0xFFF));
         
-        // Another test with different offset
+        std::cout << "  [TEST 2] Translate 0x2ABC\n";
         vaddr = 0x2ABC;  // Page 2, offset 0xABC
+        std::cout << "  [CALC]    Page number = 0x2ABC / 4096 = " << (vaddr / 4096) << "\n";
+        std::cout << "  [CALC]    Offset = 0x2ABC & 0xFFF = 0x" << std::hex << (vaddr & 0xFFF) << std::dec << "\n";
+        
         paddr = vmm.translate(vaddr);
+        std::cout << "  [RESULT]  Physical addr = 0x" << std::hex << paddr << std::dec << "\n";
+        
+        std::cout << "  [EXPECTED] Offset preserved: 0x" << std::hex << (vaddr & 0xFFF) << std::dec << "\n";
+        std::cout << "  [ACTUAL]   Physical offset: 0x" << std::hex << (paddr & 0xFFF) << std::dec << "\n";
         assert((paddr & 0xFFF) == (vaddr & 0xFFF));
         
         std::cout << "PASSED\n";

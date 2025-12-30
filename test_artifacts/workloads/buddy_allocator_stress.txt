@@ -1,0 +1,38 @@
+# Buddy Allocator Workload - Stress Test
+# Tests splitting, coalescing, and power-of-2 rounding
+# Format: OPERATION SIZE
+
+# Total Memory: 4096 bytes (4 KB)
+
+# Phase 1: Small allocations (tests splitting)
+ALLOCATE 64      # Round to 64, splits 4096→2048→1024→512→256→128→64
+ALLOCATE 100     # Round to 128, use buddy of first 64
+ALLOCATE 200     # Round to 256, continue splitting
+ALLOCATE 50      # Round to 64, use next available
+
+# Expected blocks after Phase 1:
+# Allocated: 64, 128, 256, 64 (512 total)
+# Free blocks of various sizes remain
+
+# Phase 2: Test coalescing
+FREE_ADDR 0      # Free first 64-byte block
+FREE_ADDR 64     # Free second block, should coalesce with first
+
+# Expected: The two 64-byte buddies coalesce into 128-byte block
+
+# Phase 3: Large allocations (tests finding suitable blocks)
+ALLOCATE 1024    # Should split larger free block
+ALLOCATE 512     # Allocate another large block
+
+# Phase 4: Verify power-of-2 rounding
+ALLOCATE 1       # Round to minimum block size (typically 64)
+ALLOCATE 65      # Round to 128
+ALLOCATE 513     # Round to 1024
+
+# Phase 5: Free all and verify complete coalescing
+FREE_ALL
+
+# Expected Final State:
+# All blocks coalesced back to single 4096-byte block
+# largest_free_block = 4096
+# allocated_memory = 0

@@ -1,0 +1,125 @@
+# Expected Output: Cache Access Patterns
+# Workload: cache_access_patterns.txt
+# Cache: 8192 bytes, 64-byte lines, 1-way (direct-mapped)
+# Sets: 128, Index bits: 7, Offset bits: 6
+
+## Address Decoding Formula
+```
+set_index = (address >> 6) & 0x7F    # Bits 6-12
+tag = address >> 13                   # Bits 13+
+offset = address & 0x3F              # Bits 0-5
+```
+
+## Pattern 1: Sequential Access (Spatial Locality)
+
+| Access | Address | Set | Tag | Offset | Result | Reason |
+|--------|---------|-----|-----|--------|--------|--------|
+| 1      | 0x1000  | 0   | 0x08| 0x00   | MISS   | Cold start |
+| 2      | 0x1004  | 0   | 0x08| 0x04   | HIT    | Same line |
+| 3      | 0x1010  | 0   | 0x08| 0x10   | HIT    | Same line |
+| 4      | 0x1020  | 0   | 0x08| 0x20   | HIT    | Same line |
+| 5      | 0x1030  | 0   | 0x08| 0x30   | HIT    | Same line |
+
+Expected Metrics:
+  hits: 4
+  misses: 1
+  hit_ratio: 0.8 (4/5)
+
+## Pattern 2: Temporal Locality
+
+| Access | Address | Set | Tag | Result | Reason |
+|--------|---------|-----|-----|--------|--------|
+| 6      | 0x2000  | 32  | 0x10| MISS   | Cold start |
+| 7      | 0x2000  | 32  | 0x10| HIT    | Same address |
+| 8      | 0x2000  | 32  | 0x10| HIT    | Same address |
+| 9      | 0x2000  | 32  | 0x10| HIT    | Same address |
+
+Expected Metrics:
+  hits: 7 (cumulative)
+  misses: 2
+  hit_ratio: 0.778 (7/9)
+
+## Pattern 3: Conflict Misses
+
+| Access | Address | Set | Tag  | Result | Reason |
+|--------|---------|-----|------|--------|--------|
+| 10     | 0x0000  | 0   | 0x00 | MISS   | Cold start |
+| 11     | 0x2000  | 32  | 0x10 | HIT    | From Pattern 2 |
+| 12     | 0x4000  | 64  | 0x20 | MISS   | New set |
+| 13     | 0x0000  | 0   | 0x00 | HIT    | Still in cache |
+
+Expected Metrics:
+  hits: 9
+  misses: 4
+  hit_ratio: 0.692 (9/13)
+
+## Pattern 4: Strided Access
+
+Stride: 256 bytes = 4 cache lines
+
+| Access | Address | Set | Tag | Result | Reason |
+|--------|---------|-----|-----|--------|--------|
+| 14     | 0x8000  | 0   | 0x40| MISS   | Evicts 0x0000 |
+| 15     | 0x8100  | 4   | 0x40| MISS   | New set |
+| 16     | 0x8200  | 8   | 0x40| MISS   | New set |
+| 17     | 0x8300  | 12  | 0x40| MISS   | New set |
+| 18     | 0x8000  | 0   | 0x40| HIT    | Still cached |
+
+Expected Metrics:
+  hits: 10
+  misses: 8
+  hit_ratio: 0.556 (10/18)
+
+## Pattern 5: Working Set
+
+Working set: 64 lines (4096 bytes)
+Cache capacity: 128 lines (8192 bytes)
+Result: Working set fits completely
+
+First pass (64 accesses):
+  All MISS (compulsory misses)
+  hits: 10
+  misses: 72
+
+Second pass (same 64 addresses):
+  All HIT (working set still in cache)
+  hits: 74
+  misses: 72
+  hit_ratio: 0.507 (74/146)
+
+## Final Expected Statistics
+
+Total accesses: ~100-150 (depends on full workload)
+Compulsory misses: ~30-40% (first access to each line)
+Conflict misses: ~10-15% (same set, different tags)
+Capacity misses: 0% (working set fits in cache)
+Hit ratio: 60-70%
+
+## Correctness Criteria
+
+✓ hit_ratio = hits / (hits + misses)
+✓ 0 ≤ hit_ratio ≤ 1.0
+✓ set_index < 128 (number of sets)
+✓ offset < 64 (line size)
+✓ Addresses mapping to same set:
+    (addr1 >> 6) % 128 == (addr2 >> 6) % 128
+✓ Tags must match for cache hit:
+    (addr >> 13) == cached_tag
+
+## Cache State Examples
+
+After access to 0x1000:
+```
+Set 0: [Valid=1, Tag=0x08, Data=0x1000-0x103F]
+```
+
+After conflict (0x8000 evicts 0x0000):
+```
+Set 0: [Valid=1, Tag=0x40, Data=0x8000-0x803F]
+```
+
+## Performance Characteristics
+
+Best case (100% hits): All accesses to same cache line
+Worst case (100% misses): Each access to different set with conflict
+Typical (60-70% hits): Mix of spatial and temporal locality

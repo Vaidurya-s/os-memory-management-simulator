@@ -28,26 +28,58 @@ public:
 private:
     static void test_initialization() {
         std::cout << "Testing initialization... ";
+        std::cout << "\n  [DEBUG] Creating PhysicalMemory with size 1024 bytes\n";
         PhysicalMemory pm(1024);
+        
+        std::cout << "  [EXPECTED] total_memory = 1024\n";
+        std::cout << "  [ACTUAL]   total_memory = " << pm.total_memory() << "\n";
         assert(pm.total_memory() == 1024);
+        
+        std::cout << "  [EXPECTED] used_memory = 0\n";
+        std::cout << "  [ACTUAL]   used_memory = " << pm.used_memory() << "\n";
         assert(pm.used_memory() == 0);
+        
+        std::cout << "  [EXPECTED] free_memory = 1024\n";
+        std::cout << "  [ACTUAL]   free_memory = " << pm.free_memory() << "\n";
         assert(pm.free_memory() == 1024);
+        
+        std::cout << "  [EXPECTED] largest_free_block = 1024\n";
+        std::cout << "  [ACTUAL]   largest_free_block = " << pm.largest_free_block() << "\n";
         assert(pm.largest_free_block() == 1024);
         std::cout << "PASSED\n";
     }
 
     static void test_first_fit_allocation() {
         std::cout << "Testing first-fit allocation... ";
+        std::cout << "\n  [DEBUG] Creating PhysicalMemory with size 1024 bytes\n";
         PhysicalMemory pm(1024);
         
+        std::cout << "  [STEP 1] Allocating 100 bytes using first-fit\n";
         int id1 = pm.allocate_first_fit(100);
+        std::cout << "  [EXPECTED] id1 >= 0 (allocation successful)\n";
+        std::cout << "  [ACTUAL]   id1 = " << id1 << "\n";
         assert(id1 >= 0);
+        
+        std::cout << "  [EXPECTED] used_memory = 100\n";
+        std::cout << "  [ACTUAL]   used_memory = " << pm.used_memory() << "\n";
         assert(pm.used_memory() == 100);
+        
+        std::cout << "  [EXPECTED] free_memory = 1024 - 100 = 924\n";
+        std::cout << "  [ACTUAL]   free_memory = " << pm.free_memory() << "\n";
         assert(pm.free_memory() == 924);
         
+        std::cout << "  [STEP 2] Allocating 200 bytes using first-fit\n";
         int id2 = pm.allocate_first_fit(200);
+        std::cout << "  [EXPECTED] id2 >= 0 and id2 != id1\n";
+        std::cout << "  [ACTUAL]   id2 = " << id2 << "\n";
         assert(id2 >= 0);
+        
+        std::cout << "  [EXPECTED] used_memory = 100 + 200 = 300\n";
+        std::cout << "  [ACTUAL]   used_memory = " << pm.used_memory() << "\n";
         assert(pm.used_memory() == 300);
+        
+        std::cout << "  [EXPECTED] free_memory = 1024 - 300 = 724\n";
+        std::cout << "  [ACTUAL]   free_memory = " << pm.free_memory() << "\n";
         assert(pm.free_memory() == 724);
         
         std::cout << "PASSED\n";
@@ -90,22 +122,44 @@ private:
 
     static void test_free_and_reallocation() {
         std::cout << "Testing free and reallocation... ";
+        std::cout << "\n  [DEBUG] Starting with 1024-byte memory\n";
         PhysicalMemory pm(1024);
         
+        std::cout << "  [STEP 1] Allocate 100 bytes\n";
         int id1 = pm.allocate_first_fit(100);
+        std::cout << "  [RESULT]  id1 = " << id1 << "\n";
         (void)id1;  // Kept allocated for testing
+        
+        std::cout << "  [STEP 2] Allocate 200 bytes\n";
         int id2 = pm.allocate_first_fit(200);
+        std::cout << "  [RESULT]  id2 = " << id2 << "\n";
+        
+        std::cout << "  [STEP 3] Allocate 150 bytes\n";
         int id3 = pm.allocate_first_fit(150);
+        std::cout << "  [RESULT]  id3 = " << id3 << "\n";
         (void)id3;  // Kept allocated for testing
         
+        std::cout << "  [EXPECTED] Total used = 100 + 200 + 150 = 450\n";
+        std::cout << "  [ACTUAL]   used_memory = " << pm.used_memory() << "\n";
         assert(pm.used_memory() == 450);
         
+        std::cout << "  [STEP 4] Free id2 (200 bytes)\n";
         pm.free_block(id2);
+        std::cout << "  [EXPECTED] used_memory = 450 - 200 = 250\n";
+        std::cout << "  [ACTUAL]   used_memory = " << pm.used_memory() << "\n";
         assert(pm.used_memory() == 250);
+        
+        std::cout << "  [EXPECTED] free_memory = 1024 - 250 = 774\n";
+        std::cout << "  [ACTUAL]   free_memory = " << pm.free_memory() << "\n";
         assert(pm.free_memory() == 774);
         
+        std::cout << "  [STEP 5] Allocate 50 bytes (should fit in freed 200-byte hole)\n";
         int id4 = pm.allocate_first_fit(50);
+        std::cout << "  [RESULT]  id4 = " << id4 << " (should be valid)\n";
         assert(id4 >= 0);
+        
+        std::cout << "  [EXPECTED] used_memory = 250 + 50 = 300\n";
+        std::cout << "  [ACTUAL]   used_memory = " << pm.used_memory() << "\n";
         assert(pm.used_memory() == 300);
         
         std::cout << "PASSED\n";

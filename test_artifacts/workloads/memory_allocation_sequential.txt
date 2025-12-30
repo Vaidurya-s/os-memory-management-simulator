@@ -1,0 +1,42 @@
+# Memory Allocation Workload - Sequential Pattern
+# Tests first-fit, best-fit, and worst-fit allocation strategies
+# Format: OPERATION SIZE [ID]
+
+# Total Memory: 2048 bytes
+
+# Phase 1: Sequential allocations
+ALLOCATE_FF 256   # Allocate 256 bytes using first-fit → id=1
+ALLOCATE_FF 512   # Allocate 512 bytes using first-fit → id=2  
+ALLOCATE_FF 128   # Allocate 128 bytes using first-fit → id=3
+ALLOCATE_FF 256   # Allocate 256 bytes using first-fit → id=4
+
+# Expected State after Phase 1:
+# Used: 1152 bytes (256+512+128+256)
+# Free: 896 bytes
+# Largest free block: 896 bytes
+
+# Phase 2: Create fragmentation
+FREE 2            # Free the 512-byte block (creates hole)
+
+# Expected State after Phase 2:
+# Used: 640 bytes (256+128+256)
+# Free: 1408 bytes (512 + 896)
+# Fragmentation exists: two non-contiguous free blocks
+
+# Phase 3: Test allocation strategies with fragmentation
+ALLOCATE_FF 100   # Should go in 512-byte hole → id=5
+ALLOCATE_BF 64    # Should use best-fitting hole → id=6
+ALLOCATE_WF 200   # Should use worst-fitting (largest) hole → id=7
+
+# Phase 4: Cleanup
+FREE 1
+FREE 3
+FREE 4
+FREE 5
+FREE 6
+FREE 7
+
+# Expected Final State:
+# Used: 0 bytes
+# Free: 2048 bytes (all coalesced)
+# Largest free block: 2048 bytes

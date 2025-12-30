@@ -27,11 +27,28 @@ public:
 private:
     static void test_initialization() {
         std::cout << "Testing initialization... ";
+        std::cout << "\n  [DEBUG] Creating DirectMappedCache:\n";
+        std::cout << "    - Size: 4096 bytes\n";
+        std::cout << "    - Line size: 64 bytes\n";
+        std::cout << "    - Ways: 1 (direct-mapped)\n";
         DirectMappedCache cache(4096, 64, 1);
         
+        int expected_sets = 4096 / 64;
+        std::cout << "  [EXPECTED] Number of sets = 4096/64 = " << expected_sets << "\n";
+        std::cout << "  [ACTUAL]   Number of sets = " << cache.num_sets() << "\n";
+        
+        std::cout << "  [EXPECTED] hits = 0\n";
+        std::cout << "  [ACTUAL]   hits = " << cache.hits() << "\n";
         assert(cache.hits() == 0);
+        
+        std::cout << "  [EXPECTED] misses = 0\n";
+        std::cout << "  [ACTUAL]   misses = " << cache.misses() << "\n";
         assert(cache.misses() == 0);
+        
+        std::cout << "  [EXPECTED] hit_ratio = 0.0\n";
+        std::cout << "  [ACTUAL]   hit_ratio = " << cache.hit_ratio() << "\n";
         assert(cache.hit_ratio() == 0.0);
+        
         assert(cache.num_sets() > 0);
         
         std::cout << "PASSED\n";
@@ -66,18 +83,30 @@ private:
 
     static void test_cache_hit() {
         std::cout << "Testing cache hit... ";
+        std::cout << "\n  [DEBUG] Creating cache: 1024 bytes, 64-byte lines\n";
         DirectMappedCache cache(1024, 64, 1);
         
         uint64_t addr = 0x1000;
+        std::cout << "  [STEP 1] First access to address 0x" << std::hex << addr << std::dec << "\n";
+        std::cout << "  [EXPECTED] First access should be a MISS\n";
         
-        // First access - miss
         bool hit1 = cache.access(addr);
+        std::cout << "  [ACTUAL]   Result = " << (hit1 ? "HIT" : "MISS") << "\n";
         assert(!hit1);
-        cache.fill(addr);
         
-        // Second access - should be hit
+        std::cout << "  [DEBUG] Filling cache line for address 0x" << std::hex << addr << std::dec << "\n";
+        cache.fill(addr);
+        std::cout << "  [STATE]    misses = " << cache.misses() << ", hits = " << cache.hits() << "\n";
+        
+        std::cout << "  [STEP 2] Second access to same address 0x" << std::hex << addr << std::dec << "\n";
+        std::cout << "  [EXPECTED] Second access should be a HIT\n";
+        
         bool hit2 = cache.access(addr);
+        std::cout << "  [ACTUAL]   Result = " << (hit2 ? "HIT" : "MISS") << "\n";
         assert(hit2);
+        
+        std::cout << "  [EXPECTED] hits = 1, misses = 1\n";
+        std::cout << "  [ACTUAL]   hits = " << cache.hits() << ", misses = " << cache.misses() << "\n";
         assert(cache.hits() == 1);
         assert(cache.misses() == 1);
         
@@ -86,23 +115,38 @@ private:
 
     static void test_cache_replacement() {
         std::cout << "Testing cache replacement... ";
+        std::cout << "\n  [DEBUG] Cache config: 1024 bytes, 64-byte lines -> 16 sets\n";
         DirectMappedCache cache(1024, 64, 1);  // 16 sets
         
         uint64_t addr1 = 0x0000;
         uint64_t addr2 = 0x0400;  // Maps to same set (1024 bytes apart)
         
-        // Access first address
+        int set1 = (addr1 / 64) % 16;
+        int set2 = (addr2 / 64) % 16;
+        std::cout << "  [CALC]    addr1=0x" << std::hex << addr1 << " -> set " << std::dec << set1 << "\n";
+        std::cout << "  [CALC]    addr2=0x" << std::hex << addr2 << " -> set " << std::dec << set2 << "\n";
+        std::cout << "  [EXPECTED] Both addresses map to same set (conflict)\n";
+        
+        std::cout << "  [STEP 1] Access and fill addr1\n";
         cache.access(addr1);
         cache.fill(addr1);
-        assert(cache.access(addr1));  // Hit
+        std::cout << "  [STATE]   misses=" << cache.misses() << ", hits=" << cache.hits() << "\n";
         
-        // Access conflicting address - should evict first
+        std::cout << "  [STEP 2] Re-access addr1 (should HIT)\n";
+        bool hit1 = cache.access(addr1);
+        std::cout << "  [RESULT]  " << (hit1 ? "HIT" : "MISS") << "\n";
+        assert(hit1);  // Hit
+        
+        std::cout << "  [STEP 3] Access conflicting addr2 (evicts addr1)\n";
         cache.access(addr2);
         cache.fill(addr2);
+        std::cout << "  [STATE]   misses=" << cache.misses() << ", hits=" << cache.hits() << "\n";
         
-        // First address should now miss
-        bool hit = cache.access(addr1);
-        assert(!hit);
+        std::cout << "  [STEP 4] Re-access addr1 (should MISS - was evicted)\n";
+        std::cout << "  [EXPECTED] MISS (addr1 was replaced by addr2)\n";
+        bool hit2 = cache.access(addr1);
+        std::cout << "  [RESULT]  " << (hit2 ? "HIT" : "MISS") << "\n";
+        assert(!hit2);
         
         std::cout << "PASSED\n";
     }

@@ -28,11 +28,23 @@ public:
 private:
     static void test_initialization() {
         std::cout << "Testing initialization... ";
+        std::cout << "\n  [DEBUG] Creating BuddyAllocator with size 1024 bytes\n";
         BuddyAllocator buddy(1024);
         
+        std::cout << "  [EXPECTED] total_memory = 1024\n";
+        std::cout << "  [ACTUAL]   total_memory = " << buddy.total_memory() << "\n";
         assert(buddy.total_memory() == 1024);
+        
+        std::cout << "  [EXPECTED] allocated_memory = 0\n";
+        std::cout << "  [ACTUAL]   allocated_memory = " << buddy.allocated_memory() << "\n";
         assert(buddy.allocated_memory() == 0);
+        
+        std::cout << "  [EXPECTED] free_memory = 1024\n";
+        std::cout << "  [ACTUAL]   free_memory = " << buddy.free_memory() << "\n";
         assert(buddy.free_memory() == 1024);
+        
+        std::cout << "  [EXPECTED] largest_free_block = 1024\n";
+        std::cout << "  [ACTUAL]   largest_free_block = " << buddy.largest_free_block() << "\n";
         assert(buddy.largest_free_block() == 1024);
         
         std::cout << "PASSED\n";
@@ -40,14 +52,27 @@ private:
 
     static void test_simple_allocation() {
         std::cout << "Testing simple allocation... ";
+        std::cout << "\n  [DEBUG] Creating BuddyAllocator with size 1024 bytes\n";
         BuddyAllocator buddy(1024);
         
+        std::cout << "  [STEP 1] Allocating 64 bytes\n";
+        std::cout << "  [EXPECTED] Returns valid address (not -1)\n";
         size_t addr1 = buddy.allocate(64);
+        std::cout << "  [ACTUAL]   addr1 = 0x" << std::hex << addr1 << std::dec << "\n";
         assert(addr1 != static_cast<size_t>(-1));
+        
+        std::cout << "  [EXPECTED] allocated_memory > 0\n";
+        std::cout << "  [ACTUAL]   allocated_memory = " << buddy.allocated_memory() << "\n";
         assert(buddy.allocated_memory() > 0);
         
+        std::cout << "  [STEP 2] Allocating 128 bytes\n";
+        std::cout << "  [EXPECTED] Returns different valid address\n";
         size_t addr2 = buddy.allocate(128);
+        std::cout << "  [ACTUAL]   addr2 = 0x" << std::hex << addr2 << std::dec << "\n";
         assert(addr2 != static_cast<size_t>(-1));
+        
+        std::cout << "  [EXPECTED] addr1 != addr2\n";
+        std::cout << "  [ACTUAL]   Different addresses: " << (addr1 != addr2 ? "YES" : "NO") << "\n";
         assert(addr1 != addr2);
         
         std::cout << "PASSED\n";
@@ -106,17 +131,34 @@ private:
 
     static void test_buddy_coalescing() {
         std::cout << "Testing buddy coalescing... ";
+        std::cout << "\n  [DEBUG] Creating 1024-byte buddy system\n";
         BuddyAllocator buddy(1024);
         
+        std::cout << "  [STEP 1] Allocate 128 bytes (buddy 1)\n";
         size_t addr1 = buddy.allocate(128);
+        std::cout << "  [RESULT]  addr1 = 0x" << std::hex << addr1 << std::dec << "\n";
+        std::cout << "  [STATE]   allocated = " << buddy.allocated_memory() << " bytes\n";
+        
+        std::cout << "  [STEP 2] Allocate 128 bytes (buddy 2)\n";
         size_t addr2 = buddy.allocate(128);
+        std::cout << "  [RESULT]  addr2 = 0x" << std::hex << addr2 << std::dec << "\n";
+        std::cout << "  [STATE]   allocated = " << buddy.allocated_memory() << " bytes\n";
         
-        // Free both buddies
+        std::cout << "  [CALC]    These should be buddy pairs\n";
+        std::cout << "  [CALC]    Address difference = " << std::abs(static_cast<long>(addr1 - addr2)) << " bytes\n";
+        
+        std::cout << "  [STEP 3] Free both buddies\n";
         buddy.free_block(addr1);
+        std::cout << "  [DEBUG]   Freed addr1, allocated = " << buddy.allocated_memory() << "\n";
         buddy.free_block(addr2);
+        std::cout << "  [DEBUG]   Freed addr2, allocated = " << buddy.allocated_memory() << "\n";
         
-        // After coalescing, should have all memory free
+        std::cout << "  [EXPECTED] After coalescing: free_memory = 1024\n";
+        std::cout << "  [ACTUAL]   free_memory = " << buddy.free_memory() << "\n";
         assert(buddy.free_memory() == buddy.total_memory());
+        
+        std::cout << "  [EXPECTED] After coalescing: largest_free_block = 1024\n";
+        std::cout << "  [ACTUAL]   largest_free_block = " << buddy.largest_free_block() << "\n";
         assert(buddy.largest_free_block() == 1024);
         
         std::cout << "PASSED\n";
