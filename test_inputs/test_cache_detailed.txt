@@ -1,0 +1,17 @@
+1
+65536
+Y
+Y
+access 0x1000
+access 0x2000
+access 0x3000
+access 0x1000
+access 0x2000
+access 0x4000
+access 0x5000
+access 0x1000
+access 0x8000
+access 0x10000
+cache_stats
+vm_stats
+exit

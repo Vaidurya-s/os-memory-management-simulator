@@ -1,0 +1,61 @@
+Manual CLI Test Plan
+====================
+
+Test Case 1: First Fit Allocator
+---------------------------------
+1. Start program, select option 1 (First Fit)
+2. Memory size: 1024
+3. Commands:
+   - malloc 100  -> Should allocate block id=1
+   - malloc 200  -> Should allocate block id=2
+   - free 1      -> Should free and merge
+   - dump        -> Should show memory layout with hex addresses
+   - stats       -> Should show total=1024, used=200, free=824
+   - malloc 50   -> Should reuse freed space
+   - dump        -> Verify layout
+   - stats       -> Check final statistics
+
+Test Case 2: Best Fit Allocator
+--------------------------------
+1. Start program, select option 2 (Best Fit)
+2. Memory size: 1024
+3. Test allocation pattern that demonstrates best-fit behavior
+
+Test Case 3: Worst Fit Allocator
+---------------------------------
+1. Start program, select option 3 (Worst Fit)
+2. Memory size: 1024
+3. Test allocation pattern that demonstrates worst-fit behavior
+
+Test Case 4: Buddy System
+--------------------------
+1. Start program, select option 4 (Buddy System)
+2. Memory size: 1024 (must be power of 2)
+3. Commands:
+   - malloc 100  -> Should round up to 128
+   - malloc 200  -> Should round up to 256
+   - dump        -> Should show buddy structure
+   - free 1      -> Should merge buddies
+   - stats       -> Check memory usage
+
+Expected Output Format (from requirements):
+-------------------------------------------
+> malloc 100
+Allocated block id=1 at address=0x0000
+
+> malloc 200
+Allocated block id=2 at address=0x0064
+
+> free 1
+Block 1 freed and merged
+
+> dump
+[0x0000 - 0x0063] FREE
+[0x0064 - 0x012B] USED (id=2)
+[0x012C - 0x03FF] FREE
+
+> stats
+Total memory: 1024
+Used memory: 200
+Free memory: 824
+...

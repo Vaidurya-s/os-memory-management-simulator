@@ -57,7 +57,7 @@ private:
         
         std::cout << "  [STEP 1] Allocating 64 bytes\n";
         std::cout << "  [EXPECTED] Returns valid address (not -1)\n";
-        size_t addr1 = buddy.allocate(64);
+        size_t addr1 = buddy.allocate_buddy(64);
         std::cout << "  [ACTUAL]   addr1 = 0x" << std::hex << addr1 << std::dec << "\n";
         assert(addr1 != static_cast<size_t>(-1));
         
@@ -67,7 +67,7 @@ private:
         
         std::cout << "  [STEP 2] Allocating 128 bytes\n";
         std::cout << "  [EXPECTED] Returns different valid address\n";
-        size_t addr2 = buddy.allocate(128);
+        size_t addr2 = buddy.allocate_buddy(128);
         std::cout << "  [ACTUAL]   addr2 = 0x" << std::hex << addr2 << std::dec << "\n";
         assert(addr2 != static_cast<size_t>(-1));
         
@@ -83,11 +83,11 @@ private:
         BuddyAllocator buddy(2048);
         
         // Request 100 bytes, should round up to 128
-        size_t addr1 = buddy.allocate(100);
+        size_t addr1 = buddy.allocate_buddy(100);
         assert(addr1 != static_cast<size_t>(-1));
         
         // Request 200 bytes, should round up to 256
-        size_t addr2 = buddy.allocate(200);
+        size_t addr2 = buddy.allocate_buddy(200);
         assert(addr2 != static_cast<size_t>(-1));
         
         std::cout << "PASSED\n";
@@ -97,12 +97,12 @@ private:
         std::cout << "Testing allocation and free... ";
         BuddyAllocator buddy(1024);
         
-        size_t addr1 = buddy.allocate(64);
+        size_t addr1 = buddy.allocate_buddy(64);
         assert(buddy.allocated_memory() >= 64);
         
         size_t initial_allocated = buddy.allocated_memory();
         
-        buddy.free_block(addr1);
+        buddy.free_buddy(addr1);
         assert(buddy.allocated_memory() < initial_allocated);
         assert(buddy.free_memory() == buddy.total_memory());
         
@@ -114,11 +114,11 @@ private:
         BuddyAllocator buddy(1024);
         
         // First allocation should split larger blocks
-        size_t addr1 = buddy.allocate(128);
+        size_t addr1 = buddy.allocate_buddy(128);
         assert(addr1 != static_cast<size_t>(-1));
         
         // Second allocation of same size should use buddy
-        size_t addr2 = buddy.allocate(128);
+        size_t addr2 = buddy.allocate_buddy(128);
         assert(addr2 != static_cast<size_t>(-1));
         assert(addr1 != addr2);
         
@@ -135,12 +135,12 @@ private:
         BuddyAllocator buddy(1024);
         
         std::cout << "  [STEP 1] Allocate 128 bytes (buddy 1)\n";
-        size_t addr1 = buddy.allocate(128);
+        size_t addr1 = buddy.allocate_buddy(128);
         std::cout << "  [RESULT]  addr1 = 0x" << std::hex << addr1 << std::dec << "\n";
         std::cout << "  [STATE]   allocated = " << buddy.allocated_memory() << " bytes\n";
         
         std::cout << "  [STEP 2] Allocate 128 bytes (buddy 2)\n";
-        size_t addr2 = buddy.allocate(128);
+        size_t addr2 = buddy.allocate_buddy(128);
         std::cout << "  [RESULT]  addr2 = 0x" << std::hex << addr2 << std::dec << "\n";
         std::cout << "  [STATE]   allocated = " << buddy.allocated_memory() << " bytes\n";
         
@@ -148,9 +148,9 @@ private:
         std::cout << "  [CALC]    Address difference = " << std::abs(static_cast<long>(addr1 - addr2)) << " bytes\n";
         
         std::cout << "  [STEP 3] Free both buddies\n";
-        buddy.free_block(addr1);
+        buddy.free_buddy(addr1);
         std::cout << "  [DEBUG]   Freed addr1, allocated = " << buddy.allocated_memory() << "\n";
-        buddy.free_block(addr2);
+        buddy.free_buddy(addr2);
         std::cout << "  [DEBUG]   Freed addr2, allocated = " << buddy.allocated_memory() << "\n";
         
         std::cout << "  [EXPECTED] After coalescing: free_memory = 1024\n";
@@ -172,7 +172,7 @@ private:
         
         // Allocate multiple blocks
         for (int i = 0; i < 10; ++i) {
-            size_t addr = buddy.allocate(64);
+            size_t addr = buddy.allocate_buddy(64);
             assert(addr != static_cast<size_t>(-1));
             addrs.push_back(addr);
         }
@@ -186,7 +186,7 @@ private:
         
         // Free all blocks
         for (size_t addr : addrs) {
-            buddy.free_block(addr);
+            buddy.free_buddy(addr);
         }
         
         assert(buddy.free_memory() == buddy.total_memory());
@@ -198,14 +198,14 @@ private:
         std::cout << "Testing fragmentation metrics... ";
         BuddyAllocator buddy(2048);
         
-        size_t addr1 = buddy.allocate(256);
-        size_t addr2 = buddy.allocate(128);
+        size_t addr1 = buddy.allocate_buddy(256);
+        size_t addr2 = buddy.allocate_buddy(128);
         
         double frag = buddy.internal_fragmentation();
         assert(frag >= 0.0 && frag <= 1.0);
         
-        buddy.free_block(addr1);
-        buddy.free_block(addr2);
+        buddy.free_buddy(addr1);
+        buddy.free_buddy(addr2);
         
         // After freeing all, fragmentation should be 0
         frag = buddy.internal_fragmentation();
@@ -219,21 +219,21 @@ private:
         BuddyAllocator buddy(512);
         
         // Try to allocate more than available
-        size_t addr = buddy.allocate(1024);
+        size_t addr = buddy.allocate_buddy(1024);
         assert(addr == static_cast<size_t>(-1));
         
         // Fill up memory
-        size_t addr1 = buddy.allocate(256);
-        size_t addr2 = buddy.allocate(256);
+        size_t addr1 = buddy.allocate_buddy(256);
+        size_t addr2 = buddy.allocate_buddy(256);
         
         // No more space left
-        size_t addr3 = buddy.allocate(256);
+        size_t addr3 = buddy.allocate_buddy(256);
         assert(addr3 == static_cast<size_t>(-1));
         
         std::cout << "PASSED\n";
 
-        buddy.free_block(addr1);
-        buddy.free_block(addr2);
+        buddy.free_buddy(addr1);
+        buddy.free_buddy(addr2);
     }
 
     static void test_stress_test() {
@@ -245,7 +245,7 @@ private:
         // Allocate many different sizes
         for (int i = 0; i < 20; ++i) {
             size_t size = 32 * (1 << (i % 4));  // 32, 64, 128, 256
-            size_t addr = buddy.allocate(size);
+            size_t addr = buddy.allocate_buddy(size);
             if (addr != static_cast<size_t>(-1)) {
                 addrs.push_back(addr);
             }
@@ -253,17 +253,17 @@ private:
         
         // Free every other allocation
         for (size_t i = 0; i < addrs.size(); i += 2) {
-            buddy.free_block(addrs[i]);
+            buddy.free_buddy(addrs[i]);
         }
         
         // Allocate again
         for (int i = 0; i < 5; ++i) {
-            buddy.allocate(64);
+            buddy.allocate_buddy(64);
         }
         
         // Clean up
         for (size_t i = 1; i < addrs.size(); i += 2) {
-            buddy.free_block(addrs[i]);
+            buddy.free_buddy(addrs[i]);
         }
         
         std::cout << "PASSED\n";
@@ -273,18 +273,18 @@ private:
         std::cout << "Testing invariants... ";
         BuddyAllocator buddy(2048);
         
-        size_t addr1 = buddy.allocate(128);
-        size_t addr2 = buddy.allocate(256);
+        size_t addr1 = buddy.allocate_buddy(128);
+        size_t addr2 = buddy.allocate_buddy(256);
         
         // Check invariants
         assert(buddy.check_no_overlaps());
         assert(buddy.check_no_free_buddy_pairs());
         
-        buddy.free_block(addr1);
+        buddy.free_buddy(addr1);
         
         assert(buddy.check_no_overlaps());
         
-        buddy.free_block(addr2);
+        buddy.free_buddy(addr2);
         
         assert(buddy.check_no_overlaps());
         assert(buddy.check_no_free_buddy_pairs());
@@ -298,16 +298,16 @@ private:
         
         assert(buddy.largest_free_block() == 2048);
         
-        size_t addr1 = buddy.allocate(512);
+        size_t addr1 = buddy.allocate_buddy(512);
         assert(buddy.largest_free_block() == 1024);
         
-        size_t addr2 = buddy.allocate(1024);
+        size_t addr2 = buddy.allocate_buddy(1024);
         assert(buddy.largest_free_block() == 512);
         
-        buddy.free_block(addr2);
+        buddy.free_buddy(addr2);
         assert(buddy.largest_free_block() == 1024);
         
-        buddy.free_block(addr1);
+        buddy.free_buddy(addr1);
         assert(buddy.largest_free_block() == 2048);
         
         std::cout << "PASSED\n";

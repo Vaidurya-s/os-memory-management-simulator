@@ -1,8 +1,9 @@
 #include "allocator/PhysicalMemory.h"
 #include <iostream>
+#include <iomanip>
 
-PhysicalMemory::PhysicalMemory(std::size_t total_size)
-    : total_size_(total_size), next_id_(1)
+PhysicalMemory::PhysicalMemory(std::size_t total_size, AllocationStrategy strategy)
+    : total_size_(total_size), next_id_(1), strategy_(strategy)
 {
     MemoryBlock initial;
     initial.start = 0;
@@ -16,11 +17,10 @@ PhysicalMemory::PhysicalMemory(std::size_t total_size)
 
 void PhysicalMemory::dump() const
 {
-    std::cout << "Physical Memory Dump" << std::endl;
     for (const auto& block : blocks_) {
-        std::cout << "["
-                  << block.start << " - "
-                  << (block.start + block.size - 1) << "] ";
+        std::cout << "[0x" << std::hex << std::setw(4) << std::setfill('0')
+                  << block.start << " - 0x" << std::setw(4) << std::setfill('0')
+                  << (block.start + block.size - 1) << std::dec << "] ";
 
         if (block.free) {
             std::cout << "FREE";
@@ -182,3 +182,43 @@ double PhysicalMemory::external_fragmentation() const
     std::size_t largest = largest_free_block();
     return 1.0 - static_cast<double>(largest) / static_cast<double>(free_mem);
 }
+
+// IAllocator interface implementation
+int PhysicalMemory::allocate(std::size_t size)
+{
+    switch (strategy_) {
+        case AllocationStrategy::FIRST_FIT:
+            return allocate_first_fit(size);
+        case AllocationStrategy::BEST_FIT:
+            return allocate_best_fit(size);
+        case AllocationStrategy::WORST_FIT:
+            return allocate_worst_fit(size);
+        default:
+            return allocate_first_fit(size);
+    }
+}
+
+void PhysicalMemory::set_strategy(AllocationStrategy strategy)
+{
+    strategy_ = strategy;
+}
+
+AllocationStrategy PhysicalMemory::get_strategy() const
+{
+    return strategy_;
+}
+
+const char* PhysicalMemory::allocator_name() const
+{
+    switch (strategy_) {
+        case AllocationStrategy::FIRST_FIT:
+            return "First Fit";
+        case AllocationStrategy::BEST_FIT:
+            return "Best Fit";
+        case AllocationStrategy::WORST_FIT:
+            return "Worst Fit";
+        default:
+            return "First Fit";
+    }
+}
+

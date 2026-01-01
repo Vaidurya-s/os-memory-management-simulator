@@ -1,0 +1,10 @@
+1
+1024
+Y
+Y
+access 0x200
+access 0x200
+access 0x200
+vm_stats
+cache_stats
+exit

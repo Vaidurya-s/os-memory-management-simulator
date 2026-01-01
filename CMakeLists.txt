@@ -107,6 +107,22 @@ if(BUILD_TESTS)
             ${CMAKE_SOURCE_DIR}/include
     )
 
+    # Test for CLI integration
+    add_executable(test_cli
+        tests/test_cli.cpp
+        src/allocator/PhysicalMemory.cpp
+        src/buddy/BuddyAllocator.cpp
+        src/cache/DirectMappedCache.cpp
+        src/cache/CacheHierarchy.cpp
+        src/virtual_memory/PageTable.cpp
+        src/virtual_memory/VirtualAddress.cpp
+        src/virtual_memory/VirtualMemoryManager.cpp
+    )
+    target_include_directories(test_cli
+        PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+    )
+
     # Custom target to run all tests
     add_custom_target(run_tests
         COMMAND test_physical_memory
@@ -115,6 +131,7 @@ if(BUILD_TESTS)
         COMMAND test_virtual_memory
         COMMAND test_page_table
         COMMAND test_virtual_address
+        COMMAND test_cli
         DEPENDS 
             test_physical_memory
             test_buddy_allocator
@@ -122,6 +139,7 @@ if(BUILD_TESTS)
             test_virtual_memory
             test_page_table
             test_virtual_address
+            test_cli
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         COMMENT "Running all tests..."
     )

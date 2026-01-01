@@ -1,3 +1,12 @@
 C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/memsim.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_physical_memory.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_buddy_allocator.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_cache.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_virtual_memory.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_page_table.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_virtual_address.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_runner.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/test_cli.dir
+C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/run_tests.dir
 C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/edit_cache.dir
 C:/Users/Vaidurya Shah/Desktop/projects/memory-simulator/build/CMakeFiles/rebuild_cache.dir

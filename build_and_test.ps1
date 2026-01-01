@@ -53,7 +53,8 @@ try {
             @{Name="Cache"; Exe="test_cache"},
             @{Name="Virtual Memory"; Exe="test_virtual_memory"},
             @{Name="Page Table"; Exe="test_page_table"},
-            @{Name="Virtual Address"; Exe="test_virtual_address"}
+            @{Name="Virtual Address"; Exe="test_virtual_address"},
+            @{Name="CLI Integration"; Exe="test_cli"}
         )
         
         $testNum = 1

@@ -1,5 +1,6 @@
 #include "buddy/BuddyAllocator.h"
 #include <iostream>
+#include <iomanip>
 #include <stdexcept>
 #include <algorithm>
 #include <unordered_set>
@@ -17,7 +18,7 @@ std::size_t BuddyAllocator::log2_exact(std::size_t x) {
 }
 
 BuddyAllocator::BuddyAllocator(std::size_t total_memory)
-    : total_memory_(total_memory) {
+    : total_memory_(total_memory), next_id_(1) {
 
     if (!is_power_of_two(total_memory_)) {
         throw std::invalid_argument(
@@ -32,16 +33,31 @@ BuddyAllocator::BuddyAllocator(std::size_t total_memory)
 }
 
 void BuddyAllocator::dump_free_lists() const {
-    std::cout << "Buddy Allocator Free Lists\n";
+    std::cout << "Free Blocks by Order:\n";
     for (std::size_t order = 0; order <= max_order_; ++order) {
         std::size_t block_size = static_cast<std::size_t>(1) << order;
-        std::cout << "Order " << order
-                  << " (size " << block_size << "): ";
+        
+        if (!free_lists_[order].empty()) {
+            std::cout << "Order " << order
+                      << " (size " << block_size << "): ";
 
-        for (std::size_t addr : free_lists_[order]) {
-            std::cout << addr << " ";
+            for (std::size_t addr : free_lists_[order]) {
+                std::cout << "0x" << std::hex << std::setw(4) << std::setfill('0') 
+                          << addr << std::dec << " ";
+            }
+            std::cout << "\n";
         }
-        std::cout << "\n";
+    }
+    
+    // Also show allocated blocks
+    if (!allocated_blocks_.empty()) {
+        std::cout << "\nAllocated Blocks:\n";
+        for (const auto& [addr, order] : allocated_blocks_) {
+            std::size_t size = static_cast<std::size_t>(1) << order;
+            std::cout << "[0x" << std::hex << std::setw(4) << std::setfill('0')
+                      << addr << " - 0x" << std::setw(4) << std::setfill('0')
+                      << (addr + size - 1) << std::dec << "] USED (size=" << size << ")\n";
+        }
     }
 }
 
@@ -61,7 +77,7 @@ static std::size_t next_power_of_two(std::size_t x) {
 }
 
 
-std::size_t BuddyAllocator::allocate(std::size_t size) {
+std::size_t BuddyAllocator::allocate_buddy(std::size_t size) {
     if (size == 0 || size > total_memory_) {
         return static_cast<std::size_t>(-1);
     }
@@ -100,7 +116,7 @@ std::size_t BuddyAllocator::allocate(std::size_t size) {
 }
 
 
-void BuddyAllocator::free_block(std::size_t addr) {
+void BuddyAllocator::free_buddy(std::size_t addr) {
     auto it = allocated_blocks_.find(addr);
     if (it == allocated_blocks_.end()) {
         return;
@@ -200,3 +216,42 @@ bool BuddyAllocator::check_no_overlaps() const {
     }
     return true;
 }
+
+// IAllocator interface implementation
+int BuddyAllocator::allocate(std::size_t size) {
+    std::size_t addr = allocate_buddy(size);
+    if (addr == static_cast<std::size_t>(-1)) {
+        return -1;
+    }
+    
+    int id = next_id_++;
+    id_to_addr_[id] = addr;
+    addr_to_id_[addr] = id;
+    return id;
+}
+
+void BuddyAllocator::free_block(int id) {
+    auto it = id_to_addr_.find(id);
+    if (it == id_to_addr_.end()) {
+        return;
+    }
+    
+    std::size_t addr = it->second;
+    id_to_addr_.erase(it);
+    addr_to_id_.erase(addr);
+    
+    free_buddy(addr);
+}
+
+std::size_t BuddyAllocator::used_memory() const {
+    return allocated_memory();
+}
+
+void BuddyAllocator::dump() const {
+    dump_free_lists();
+}
+
+const char* BuddyAllocator::allocator_name() const {
+    return "Buddy System";
+}
+

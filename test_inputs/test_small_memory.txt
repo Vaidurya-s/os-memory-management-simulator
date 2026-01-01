@@ -1,0 +1,14 @@
+1
+1024
+Y
+Y
+help
+malloc 500
+malloc 200
+dump
+stats
+access 0x0
+access 0x100
+cache_stats
+vm_stats
+exit

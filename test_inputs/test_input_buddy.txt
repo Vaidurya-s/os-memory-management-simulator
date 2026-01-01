@@ -1,0 +1,10 @@
+4
+1024
+malloc 100
+malloc 200
+dump
+stats
+free 1
+dump
+stats
+exit

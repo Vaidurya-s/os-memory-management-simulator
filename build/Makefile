@@ -128,12 +128,131 @@ memsim/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/build
 .PHONY : memsim/fast
 
+#=============================================================================
+# Target rules for targets named test_physical_memory
+
+# Build rule for target.
+test_physical_memory: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_physical_memory
+.PHONY : test_physical_memory
+
+# fast build rule for target.
+test_physical_memory/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_physical_memory.dir\build.make CMakeFiles/test_physical_memory.dir/build
+.PHONY : test_physical_memory/fast
+
+#=============================================================================
+# Target rules for targets named test_buddy_allocator
+
+# Build rule for target.
+test_buddy_allocator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_buddy_allocator
+.PHONY : test_buddy_allocator
+
+# fast build rule for target.
+test_buddy_allocator/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_buddy_allocator.dir\build.make CMakeFiles/test_buddy_allocator.dir/build
+.PHONY : test_buddy_allocator/fast
+
+#=============================================================================
+# Target rules for targets named test_cache
+
+# Build rule for target.
+test_cache: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_cache
+.PHONY : test_cache
+
+# fast build rule for target.
+test_cache/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cache.dir\build.make CMakeFiles/test_cache.dir/build
+.PHONY : test_cache/fast
+
+#=============================================================================
+# Target rules for targets named test_virtual_memory
+
+# Build rule for target.
+test_virtual_memory: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_virtual_memory
+.PHONY : test_virtual_memory
+
+# fast build rule for target.
+test_virtual_memory/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/build
+.PHONY : test_virtual_memory/fast
+
+#=============================================================================
+# Target rules for targets named test_page_table
+
+# Build rule for target.
+test_page_table: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_page_table
+.PHONY : test_page_table
+
+# fast build rule for target.
+test_page_table/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_page_table.dir\build.make CMakeFiles/test_page_table.dir/build
+.PHONY : test_page_table/fast
+
+#=============================================================================
+# Target rules for targets named test_virtual_address
+
+# Build rule for target.
+test_virtual_address: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_virtual_address
+.PHONY : test_virtual_address
+
+# fast build rule for target.
+test_virtual_address/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_address.dir\build.make CMakeFiles/test_virtual_address.dir/build
+.PHONY : test_virtual_address/fast
+
+#=============================================================================
+# Target rules for targets named test_runner
+
+# Build rule for target.
+test_runner: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_runner
+.PHONY : test_runner
+
+# fast build rule for target.
+test_runner/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_runner.dir\build.make CMakeFiles/test_runner.dir/build
+.PHONY : test_runner/fast
+
+#=============================================================================
+# Target rules for targets named test_cli
+
+# Build rule for target.
+test_cli: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 test_cli
+.PHONY : test_cli
+
+# fast build rule for target.
+test_cli/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/build
+.PHONY : test_cli/fast
+
+#=============================================================================
+# Target rules for targets named run_tests
+
+# Build rule for target.
+run_tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 run_tests
+.PHONY : run_tests
+
+# fast build rule for target.
+run_tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run_tests.dir\build.make CMakeFiles/run_tests.dir/build
+.PHONY : run_tests/fast
+
 src/allocator/PhysicalMemory.obj: src/allocator/PhysicalMemory.cpp.obj
 .PHONY : src/allocator/PhysicalMemory.obj
 
 # target to build an object file
 src/allocator/PhysicalMemory.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/allocator/PhysicalMemory.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_physical_memory.dir\build.make CMakeFiles/test_physical_memory.dir/src/allocator/PhysicalMemory.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/allocator/PhysicalMemory.cpp.obj
 .PHONY : src/allocator/PhysicalMemory.cpp.obj
 
 src/allocator/PhysicalMemory.i: src/allocator/PhysicalMemory.cpp.i
@@ -142,6 +261,8 @@ src/allocator/PhysicalMemory.i: src/allocator/PhysicalMemory.cpp.i
 # target to preprocess a source file
 src/allocator/PhysicalMemory.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/allocator/PhysicalMemory.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_physical_memory.dir\build.make CMakeFiles/test_physical_memory.dir/src/allocator/PhysicalMemory.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/allocator/PhysicalMemory.cpp.i
 .PHONY : src/allocator/PhysicalMemory.cpp.i
 
 src/allocator/PhysicalMemory.s: src/allocator/PhysicalMemory.cpp.s
@@ -150,6 +271,8 @@ src/allocator/PhysicalMemory.s: src/allocator/PhysicalMemory.cpp.s
 # target to generate assembly for a file
 src/allocator/PhysicalMemory.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/allocator/PhysicalMemory.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_physical_memory.dir\build.make CMakeFiles/test_physical_memory.dir/src/allocator/PhysicalMemory.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/allocator/PhysicalMemory.cpp.s
 .PHONY : src/allocator/PhysicalMemory.cpp.s
 
 src/buddy/BuddyAllocator.obj: src/buddy/BuddyAllocator.cpp.obj
@@ -158,6 +281,8 @@ src/buddy/BuddyAllocator.obj: src/buddy/BuddyAllocator.cpp.obj
 # target to build an object file
 src/buddy/BuddyAllocator.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/buddy/BuddyAllocator.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_buddy_allocator.dir\build.make CMakeFiles/test_buddy_allocator.dir/src/buddy/BuddyAllocator.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/buddy/BuddyAllocator.cpp.obj
 .PHONY : src/buddy/BuddyAllocator.cpp.obj
 
 src/buddy/BuddyAllocator.i: src/buddy/BuddyAllocator.cpp.i
@@ -166,6 +291,8 @@ src/buddy/BuddyAllocator.i: src/buddy/BuddyAllocator.cpp.i
 # target to preprocess a source file
 src/buddy/BuddyAllocator.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/buddy/BuddyAllocator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_buddy_allocator.dir\build.make CMakeFiles/test_buddy_allocator.dir/src/buddy/BuddyAllocator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/buddy/BuddyAllocator.cpp.i
 .PHONY : src/buddy/BuddyAllocator.cpp.i
 
 src/buddy/BuddyAllocator.s: src/buddy/BuddyAllocator.cpp.s
@@ -174,6 +301,8 @@ src/buddy/BuddyAllocator.s: src/buddy/BuddyAllocator.cpp.s
 # target to generate assembly for a file
 src/buddy/BuddyAllocator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/buddy/BuddyAllocator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_buddy_allocator.dir\build.make CMakeFiles/test_buddy_allocator.dir/src/buddy/BuddyAllocator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/buddy/BuddyAllocator.cpp.s
 .PHONY : src/buddy/BuddyAllocator.cpp.s
 
 src/cache/CacheHierarchy.obj: src/cache/CacheHierarchy.cpp.obj
@@ -182,6 +311,7 @@ src/cache/CacheHierarchy.obj: src/cache/CacheHierarchy.cpp.obj
 # target to build an object file
 src/cache/CacheHierarchy.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/cache/CacheHierarchy.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/cache/CacheHierarchy.cpp.obj
 .PHONY : src/cache/CacheHierarchy.cpp.obj
 
 src/cache/CacheHierarchy.i: src/cache/CacheHierarchy.cpp.i
@@ -190,6 +320,7 @@ src/cache/CacheHierarchy.i: src/cache/CacheHierarchy.cpp.i
 # target to preprocess a source file
 src/cache/CacheHierarchy.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/cache/CacheHierarchy.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/cache/CacheHierarchy.cpp.i
 .PHONY : src/cache/CacheHierarchy.cpp.i
 
 src/cache/CacheHierarchy.s: src/cache/CacheHierarchy.cpp.s
@@ -198,6 +329,7 @@ src/cache/CacheHierarchy.s: src/cache/CacheHierarchy.cpp.s
 # target to generate assembly for a file
 src/cache/CacheHierarchy.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/cache/CacheHierarchy.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/cache/CacheHierarchy.cpp.s
 .PHONY : src/cache/CacheHierarchy.cpp.s
 
 src/cache/DirectMappedCache.obj: src/cache/DirectMappedCache.cpp.obj
@@ -206,6 +338,8 @@ src/cache/DirectMappedCache.obj: src/cache/DirectMappedCache.cpp.obj
 # target to build an object file
 src/cache/DirectMappedCache.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/cache/DirectMappedCache.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cache.dir\build.make CMakeFiles/test_cache.dir/src/cache/DirectMappedCache.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/cache/DirectMappedCache.cpp.obj
 .PHONY : src/cache/DirectMappedCache.cpp.obj
 
 src/cache/DirectMappedCache.i: src/cache/DirectMappedCache.cpp.i
@@ -214,6 +348,8 @@ src/cache/DirectMappedCache.i: src/cache/DirectMappedCache.cpp.i
 # target to preprocess a source file
 src/cache/DirectMappedCache.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/cache/DirectMappedCache.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cache.dir\build.make CMakeFiles/test_cache.dir/src/cache/DirectMappedCache.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/cache/DirectMappedCache.cpp.i
 .PHONY : src/cache/DirectMappedCache.cpp.i
 
 src/cache/DirectMappedCache.s: src/cache/DirectMappedCache.cpp.s
@@ -222,6 +358,8 @@ src/cache/DirectMappedCache.s: src/cache/DirectMappedCache.cpp.s
 # target to generate assembly for a file
 src/cache/DirectMappedCache.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/cache/DirectMappedCache.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cache.dir\build.make CMakeFiles/test_cache.dir/src/cache/DirectMappedCache.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/cache/DirectMappedCache.cpp.s
 .PHONY : src/cache/DirectMappedCache.cpp.s
 
 src/main.obj: src/main.cpp.obj
@@ -254,6 +392,9 @@ src/virtual_memory/PageTable.obj: src/virtual_memory/PageTable.cpp.obj
 # target to build an object file
 src/virtual_memory/PageTable.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/PageTable.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/PageTable.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_page_table.dir\build.make CMakeFiles/test_page_table.dir/src/virtual_memory/PageTable.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/PageTable.cpp.obj
 .PHONY : src/virtual_memory/PageTable.cpp.obj
 
 src/virtual_memory/PageTable.i: src/virtual_memory/PageTable.cpp.i
@@ -262,6 +403,9 @@ src/virtual_memory/PageTable.i: src/virtual_memory/PageTable.cpp.i
 # target to preprocess a source file
 src/virtual_memory/PageTable.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/PageTable.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/PageTable.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_page_table.dir\build.make CMakeFiles/test_page_table.dir/src/virtual_memory/PageTable.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/PageTable.cpp.i
 .PHONY : src/virtual_memory/PageTable.cpp.i
 
 src/virtual_memory/PageTable.s: src/virtual_memory/PageTable.cpp.s
@@ -270,6 +414,9 @@ src/virtual_memory/PageTable.s: src/virtual_memory/PageTable.cpp.s
 # target to generate assembly for a file
 src/virtual_memory/PageTable.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/PageTable.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/PageTable.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_page_table.dir\build.make CMakeFiles/test_page_table.dir/src/virtual_memory/PageTable.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/PageTable.cpp.s
 .PHONY : src/virtual_memory/PageTable.cpp.s
 
 src/virtual_memory/VirtualAddress.obj: src/virtual_memory/VirtualAddress.cpp.obj
@@ -278,6 +425,9 @@ src/virtual_memory/VirtualAddress.obj: src/virtual_memory/VirtualAddress.cpp.obj
 # target to build an object file
 src/virtual_memory/VirtualAddress.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/VirtualAddress.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/VirtualAddress.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_address.dir\build.make CMakeFiles/test_virtual_address.dir/src/virtual_memory/VirtualAddress.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/VirtualAddress.cpp.obj
 .PHONY : src/virtual_memory/VirtualAddress.cpp.obj
 
 src/virtual_memory/VirtualAddress.i: src/virtual_memory/VirtualAddress.cpp.i
@@ -286,6 +436,9 @@ src/virtual_memory/VirtualAddress.i: src/virtual_memory/VirtualAddress.cpp.i
 # target to preprocess a source file
 src/virtual_memory/VirtualAddress.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/VirtualAddress.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/VirtualAddress.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_address.dir\build.make CMakeFiles/test_virtual_address.dir/src/virtual_memory/VirtualAddress.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/VirtualAddress.cpp.i
 .PHONY : src/virtual_memory/VirtualAddress.cpp.i
 
 src/virtual_memory/VirtualAddress.s: src/virtual_memory/VirtualAddress.cpp.s
@@ -294,6 +447,9 @@ src/virtual_memory/VirtualAddress.s: src/virtual_memory/VirtualAddress.cpp.s
 # target to generate assembly for a file
 src/virtual_memory/VirtualAddress.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/VirtualAddress.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/VirtualAddress.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_address.dir\build.make CMakeFiles/test_virtual_address.dir/src/virtual_memory/VirtualAddress.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/VirtualAddress.cpp.s
 .PHONY : src/virtual_memory/VirtualAddress.cpp.s
 
 src/virtual_memory/VirtualMemoryManager.obj: src/virtual_memory/VirtualMemoryManager.cpp.obj
@@ -302,6 +458,8 @@ src/virtual_memory/VirtualMemoryManager.obj: src/virtual_memory/VirtualMemoryMan
 # target to build an object file
 src/virtual_memory/VirtualMemoryManager.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/VirtualMemoryManager.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/VirtualMemoryManager.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/VirtualMemoryManager.cpp.obj
 .PHONY : src/virtual_memory/VirtualMemoryManager.cpp.obj
 
 src/virtual_memory/VirtualMemoryManager.i: src/virtual_memory/VirtualMemoryManager.cpp.i
@@ -310,6 +468,8 @@ src/virtual_memory/VirtualMemoryManager.i: src/virtual_memory/VirtualMemoryManag
 # target to preprocess a source file
 src/virtual_memory/VirtualMemoryManager.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/VirtualMemoryManager.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/VirtualMemoryManager.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/VirtualMemoryManager.cpp.i
 .PHONY : src/virtual_memory/VirtualMemoryManager.cpp.i
 
 src/virtual_memory/VirtualMemoryManager.s: src/virtual_memory/VirtualMemoryManager.cpp.s
@@ -318,7 +478,201 @@ src/virtual_memory/VirtualMemoryManager.s: src/virtual_memory/VirtualMemoryManag
 # target to generate assembly for a file
 src/virtual_memory/VirtualMemoryManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\memsim.dir\build.make CMakeFiles/memsim.dir/src/virtual_memory/VirtualMemoryManager.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/src/virtual_memory/VirtualMemoryManager.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/src/virtual_memory/VirtualMemoryManager.cpp.s
 .PHONY : src/virtual_memory/VirtualMemoryManager.cpp.s
+
+tests/test_buddy_allocator.obj: tests/test_buddy_allocator.cpp.obj
+.PHONY : tests/test_buddy_allocator.obj
+
+# target to build an object file
+tests/test_buddy_allocator.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_buddy_allocator.dir\build.make CMakeFiles/test_buddy_allocator.dir/tests/test_buddy_allocator.cpp.obj
+.PHONY : tests/test_buddy_allocator.cpp.obj
+
+tests/test_buddy_allocator.i: tests/test_buddy_allocator.cpp.i
+.PHONY : tests/test_buddy_allocator.i
+
+# target to preprocess a source file
+tests/test_buddy_allocator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_buddy_allocator.dir\build.make CMakeFiles/test_buddy_allocator.dir/tests/test_buddy_allocator.cpp.i
+.PHONY : tests/test_buddy_allocator.cpp.i
+
+tests/test_buddy_allocator.s: tests/test_buddy_allocator.cpp.s
+.PHONY : tests/test_buddy_allocator.s
+
+# target to generate assembly for a file
+tests/test_buddy_allocator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_buddy_allocator.dir\build.make CMakeFiles/test_buddy_allocator.dir/tests/test_buddy_allocator.cpp.s
+.PHONY : tests/test_buddy_allocator.cpp.s
+
+tests/test_cache.obj: tests/test_cache.cpp.obj
+.PHONY : tests/test_cache.obj
+
+# target to build an object file
+tests/test_cache.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cache.dir\build.make CMakeFiles/test_cache.dir/tests/test_cache.cpp.obj
+.PHONY : tests/test_cache.cpp.obj
+
+tests/test_cache.i: tests/test_cache.cpp.i
+.PHONY : tests/test_cache.i
+
+# target to preprocess a source file
+tests/test_cache.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cache.dir\build.make CMakeFiles/test_cache.dir/tests/test_cache.cpp.i
+.PHONY : tests/test_cache.cpp.i
+
+tests/test_cache.s: tests/test_cache.cpp.s
+.PHONY : tests/test_cache.s
+
+# target to generate assembly for a file
+tests/test_cache.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cache.dir\build.make CMakeFiles/test_cache.dir/tests/test_cache.cpp.s
+.PHONY : tests/test_cache.cpp.s
+
+tests/test_cli.obj: tests/test_cli.cpp.obj
+.PHONY : tests/test_cli.obj
+
+# target to build an object file
+tests/test_cli.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/tests/test_cli.cpp.obj
+.PHONY : tests/test_cli.cpp.obj
+
+tests/test_cli.i: tests/test_cli.cpp.i
+.PHONY : tests/test_cli.i
+
+# target to preprocess a source file
+tests/test_cli.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/tests/test_cli.cpp.i
+.PHONY : tests/test_cli.cpp.i
+
+tests/test_cli.s: tests/test_cli.cpp.s
+.PHONY : tests/test_cli.s
+
+# target to generate assembly for a file
+tests/test_cli.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_cli.dir\build.make CMakeFiles/test_cli.dir/tests/test_cli.cpp.s
+.PHONY : tests/test_cli.cpp.s
+
+tests/test_page_table.obj: tests/test_page_table.cpp.obj
+.PHONY : tests/test_page_table.obj
+
+# target to build an object file
+tests/test_page_table.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_page_table.dir\build.make CMakeFiles/test_page_table.dir/tests/test_page_table.cpp.obj
+.PHONY : tests/test_page_table.cpp.obj
+
+tests/test_page_table.i: tests/test_page_table.cpp.i
+.PHONY : tests/test_page_table.i
+
+# target to preprocess a source file
+tests/test_page_table.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_page_table.dir\build.make CMakeFiles/test_page_table.dir/tests/test_page_table.cpp.i
+.PHONY : tests/test_page_table.cpp.i
+
+tests/test_page_table.s: tests/test_page_table.cpp.s
+.PHONY : tests/test_page_table.s
+
+# target to generate assembly for a file
+tests/test_page_table.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_page_table.dir\build.make CMakeFiles/test_page_table.dir/tests/test_page_table.cpp.s
+.PHONY : tests/test_page_table.cpp.s
+
+tests/test_physical_memory.obj: tests/test_physical_memory.cpp.obj
+.PHONY : tests/test_physical_memory.obj
+
+# target to build an object file
+tests/test_physical_memory.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_physical_memory.dir\build.make CMakeFiles/test_physical_memory.dir/tests/test_physical_memory.cpp.obj
+.PHONY : tests/test_physical_memory.cpp.obj
+
+tests/test_physical_memory.i: tests/test_physical_memory.cpp.i
+.PHONY : tests/test_physical_memory.i
+
+# target to preprocess a source file
+tests/test_physical_memory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_physical_memory.dir\build.make CMakeFiles/test_physical_memory.dir/tests/test_physical_memory.cpp.i
+.PHONY : tests/test_physical_memory.cpp.i
+
+tests/test_physical_memory.s: tests/test_physical_memory.cpp.s
+.PHONY : tests/test_physical_memory.s
+
+# target to generate assembly for a file
+tests/test_physical_memory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_physical_memory.dir\build.make CMakeFiles/test_physical_memory.dir/tests/test_physical_memory.cpp.s
+.PHONY : tests/test_physical_memory.cpp.s
+
+tests/test_runner.obj: tests/test_runner.cpp.obj
+.PHONY : tests/test_runner.obj
+
+# target to build an object file
+tests/test_runner.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_runner.dir\build.make CMakeFiles/test_runner.dir/tests/test_runner.cpp.obj
+.PHONY : tests/test_runner.cpp.obj
+
+tests/test_runner.i: tests/test_runner.cpp.i
+.PHONY : tests/test_runner.i
+
+# target to preprocess a source file
+tests/test_runner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_runner.dir\build.make CMakeFiles/test_runner.dir/tests/test_runner.cpp.i
+.PHONY : tests/test_runner.cpp.i
+
+tests/test_runner.s: tests/test_runner.cpp.s
+.PHONY : tests/test_runner.s
+
+# target to generate assembly for a file
+tests/test_runner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_runner.dir\build.make CMakeFiles/test_runner.dir/tests/test_runner.cpp.s
+.PHONY : tests/test_runner.cpp.s
+
+tests/test_virtual_address.obj: tests/test_virtual_address.cpp.obj
+.PHONY : tests/test_virtual_address.obj
+
+# target to build an object file
+tests/test_virtual_address.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_address.dir\build.make CMakeFiles/test_virtual_address.dir/tests/test_virtual_address.cpp.obj
+.PHONY : tests/test_virtual_address.cpp.obj
+
+tests/test_virtual_address.i: tests/test_virtual_address.cpp.i
+.PHONY : tests/test_virtual_address.i
+
+# target to preprocess a source file
+tests/test_virtual_address.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_address.dir\build.make CMakeFiles/test_virtual_address.dir/tests/test_virtual_address.cpp.i
+.PHONY : tests/test_virtual_address.cpp.i
+
+tests/test_virtual_address.s: tests/test_virtual_address.cpp.s
+.PHONY : tests/test_virtual_address.s
+
+# target to generate assembly for a file
+tests/test_virtual_address.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_address.dir\build.make CMakeFiles/test_virtual_address.dir/tests/test_virtual_address.cpp.s
+.PHONY : tests/test_virtual_address.cpp.s
+
+tests/test_virtual_memory.obj: tests/test_virtual_memory.cpp.obj
+.PHONY : tests/test_virtual_memory.obj
+
+# target to build an object file
+tests/test_virtual_memory.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/tests/test_virtual_memory.cpp.obj
+.PHONY : tests/test_virtual_memory.cpp.obj
+
+tests/test_virtual_memory.i: tests/test_virtual_memory.cpp.i
+.PHONY : tests/test_virtual_memory.i
+
+# target to preprocess a source file
+tests/test_virtual_memory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/tests/test_virtual_memory.cpp.i
+.PHONY : tests/test_virtual_memory.cpp.i
+
+tests/test_virtual_memory.s: tests/test_virtual_memory.cpp.s
+.PHONY : tests/test_virtual_memory.s
+
+# target to generate assembly for a file
+tests/test_virtual_memory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\test_virtual_memory.dir\build.make CMakeFiles/test_virtual_memory.dir/tests/test_virtual_memory.cpp.s
+.PHONY : tests/test_virtual_memory.cpp.s
 
 # Help Target
 help:
@@ -328,7 +682,16 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... run_tests
 	@echo ... memsim
+	@echo ... test_buddy_allocator
+	@echo ... test_cache
+	@echo ... test_cli
+	@echo ... test_page_table
+	@echo ... test_physical_memory
+	@echo ... test_runner
+	@echo ... test_virtual_address
+	@echo ... test_virtual_memory
 	@echo ... src/allocator/PhysicalMemory.obj
 	@echo ... src/allocator/PhysicalMemory.i
 	@echo ... src/allocator/PhysicalMemory.s
@@ -353,6 +716,30 @@ help:
 	@echo ... src/virtual_memory/VirtualMemoryManager.obj
 	@echo ... src/virtual_memory/VirtualMemoryManager.i
 	@echo ... src/virtual_memory/VirtualMemoryManager.s
+	@echo ... tests/test_buddy_allocator.obj
+	@echo ... tests/test_buddy_allocator.i
+	@echo ... tests/test_buddy_allocator.s
+	@echo ... tests/test_cache.obj
+	@echo ... tests/test_cache.i
+	@echo ... tests/test_cache.s
+	@echo ... tests/test_cli.obj
+	@echo ... tests/test_cli.i
+	@echo ... tests/test_cli.s
+	@echo ... tests/test_page_table.obj
+	@echo ... tests/test_page_table.i
+	@echo ... tests/test_page_table.s
+	@echo ... tests/test_physical_memory.obj
+	@echo ... tests/test_physical_memory.i
+	@echo ... tests/test_physical_memory.s
+	@echo ... tests/test_runner.obj
+	@echo ... tests/test_runner.i
+	@echo ... tests/test_runner.s
+	@echo ... tests/test_virtual_address.obj
+	@echo ... tests/test_virtual_address.i
+	@echo ... tests/test_virtual_address.s
+	@echo ... tests/test_virtual_memory.obj
+	@echo ... tests/test_virtual_memory.i
+	@echo ... tests/test_virtual_memory.s
 .PHONY : help
 
 

@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = @CMakeFiles/memsim.dir/includes_CXX.rsp
 
-CXX_FLAGS = -g -std=gnu++17 -Wall -Wextra -Wpedantic -Werror
+CXX_FLAGS = -g -std=gnu++17 -Wall -Wextra -Wpedantic
 

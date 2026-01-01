@@ -1,6 +1,7 @@
 CMakeFiles/memsim.dir/src/buddy/BuddyAllocator.cpp.obj: \
  C:\Users\Vaidurya\ Shah\Desktop\projects\memory-simulator\src\buddy\BuddyAllocator.cpp \
  C:/Users/VAIDUR~1/Desktop/projects/MEMORY~1/include/buddy/BuddyAllocator.h \
+ C:/Users/VAIDUR~1/Desktop/projects/MEMORY~1/include/buddy/../allocator/IAllocator.h \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/cstddef \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
@@ -165,6 +166,18 @@ CMakeFiles/memsim.dir/src/buddy/BuddyAllocator.cpp.obj: \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/ostream.tcc \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/istream \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/istream.tcc \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/iomanip \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/locale \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.h \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/ctime \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/codecvt.h \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/locale_conv.h \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/quoted_string.h \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/sstream \
+ C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/sstream.tcc \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/algorithm \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/stl_algo.h \
  C:/Users/Vaidurya\ Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/include/c++/15.2.0/bits/algorithmfwd.h \

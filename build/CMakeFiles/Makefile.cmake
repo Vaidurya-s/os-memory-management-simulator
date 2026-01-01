@@ -59,4 +59,13 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/memsim.dir/DependInfo.cmake"
+  "CMakeFiles/test_physical_memory.dir/DependInfo.cmake"
+  "CMakeFiles/test_buddy_allocator.dir/DependInfo.cmake"
+  "CMakeFiles/test_cache.dir/DependInfo.cmake"
+  "CMakeFiles/test_virtual_memory.dir/DependInfo.cmake"
+  "CMakeFiles/test_page_table.dir/DependInfo.cmake"
+  "CMakeFiles/test_virtual_address.dir/DependInfo.cmake"
+  "CMakeFiles/test_runner.dir/DependInfo.cmake"
+  "CMakeFiles/test_cli.dir/DependInfo.cmake"
+  "CMakeFiles/run_tests.dir/DependInfo.cmake"
   )

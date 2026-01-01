@@ -1,0 +1,19 @@
+1
+65536
+Y
+Y
+help
+malloc 1024
+malloc 512
+malloc 2048
+dump
+stats
+access 0x1000
+access 0x2000
+access 0x1000
+cache_stats
+vm_stats
+free 1
+dump
+stats
+exit

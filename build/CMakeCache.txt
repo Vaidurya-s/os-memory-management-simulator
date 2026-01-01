@@ -14,6 +14,9 @@
 # EXTERNAL cache entries
 ########################
 
+//Build test executables
+BUILD_TESTS:BOOL=ON
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=C:/Users/Vaidurya Shah/AppData/Local/Microsoft/WinGet/Packages/BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/mingw64/bin/addr2line.exe
 
